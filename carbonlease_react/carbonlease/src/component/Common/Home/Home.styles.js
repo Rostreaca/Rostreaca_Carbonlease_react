@@ -2,7 +2,8 @@ import styled from 'styled-components';
 
 // ===== Hero Section =====
 export const HeroSection = styled.section`
-    padding: 150px 0 60px 0;
+    padding: 180px 0 80px 0;
+    margin-top: 80px;
     background: linear-gradient(135deg, var(--surface-color) 0%, color-mix(in srgb, var(--accent-color), transparent 95%) 100%);
     position: relative;
     overflow: hidden;
@@ -22,12 +23,22 @@ export const HeroSection = styled.section`
         padding: 20px 0;
     }
 
+    /* Tablet */
     @media (max-width: 992px) {
-        padding: 80px 0;
+        padding: 140px 0 60px 0;
+        margin-top: 70px;
     }
 
+    /* Mobile */
     @media (max-width: 768px) {
-        padding: 60px 0;
+        padding: 120px 0 50px 0;
+        margin-top: 60px;
+    }
+
+    /* Small Mobile */
+    @media (max-width: 576px) {
+        padding: 100px 0 40px 0;
+        margin-top: 60px;
     }
 `;
 

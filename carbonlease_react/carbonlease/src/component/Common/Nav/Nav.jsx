@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { NavMenu } from "../Header/Header.styled";
+import { NavLink } from "react-router-dom";
+import AuthLinks from "../Header/AuthLinks/AuthLinks";
 
 const Nav = ({ isMobileNavOpen, onMobileNavToggle, onNavLinkClick }) => {
     const [openDropdown, setOpenDropdown] = useState(false);
@@ -12,7 +14,11 @@ const Nav = ({ isMobileNavOpen, onMobileNavToggle, onNavLinkClick }) => {
     return (
         <NavMenu id="navmenu" className={`navmenu ${isMobileNavOpen ? 'mobile-nav-active' : ''}`}>
             <ul>
-                <li><a href="#hero" onClick={onNavLinkClick}>Home</a></li>
+                <li>
+                    <NavLink to="/" onClick={onNavLinkClick}>
+                        Home
+                    </NavLink>
+                </li>
 
                 <li className="dropdown">
                     <a href="#" onClick={handleDropdownToggle}>
@@ -20,18 +26,45 @@ const Nav = ({ isMobileNavOpen, onMobileNavToggle, onNavLinkClick }) => {
                         <i className={`bi bi-chevron-down toggle-dropdown ${openDropdown ? 'active' : ''}`}></i>
                     </a>
                     <ul className={openDropdown ? 'dropdown-active' : ''}>
-                        <li><a href="#" onClick={onNavLinkClick}>일반 게시판</a></li>
-                        <li><a href="#" onClick={onNavLinkClick}>인증 게시판</a></li>
+                        <li>
+                            <NavLink 
+                            to="/boards" 
+                            onClick={onNavLinkClick}
+                            >
+                                일반 게시판
+                            </NavLink>
+                        </li>
+                        <li>
+                            <NavLink 
+                            to="/activityBoards"
+                            onClick={onNavLinkClick}
+                            >
+                                인증 게시판
+                            </NavLink>
+                        </li>
                     </ul>
                 </li>
 
-                <li><a href="#about" onClick={onNavLinkClick}>캠페인</a></li>
-                <li><a href="#features" onClick={onNavLinkClick}>공지사항</a></li>
+                <li>
+                    <NavLink 
+                    to="/campaigns" 
+                    onClick={onNavLinkClick}
+                    >
+                    캠페인
+                    </NavLink>
+                </li>
+                <li>
+                    <NavLink 
+                    to="/notices" 
+                    onClick={onNavLinkClick}
+                    >
+                        공지사항
+                    </NavLink>
+                </li>
                 <li><a href="#contact" onClick={onNavLinkClick}>Contact</a></li>
+
                 <li className="d-xl-none" style={{display: 'flex', alignItems: 'center', padding: '10px 20px'}}>
-                    <a href="#login" onClick={onNavLinkClick} style={{padding: 0, flex: 'none', width: 'auto'}}>로그인</a>
-                    <span style={{margin: '0 8px', color: 'var(--nav-dropdown-color)'}}>|</span>
-                    <a href="#signup" onClick={onNavLinkClick} style={{padding: 0, flex: 'none', width: 'auto'}}>회원가입</a>
+                    <AuthLinks onClick={onNavLinkClick} />
                 </li>
             </ul>
 

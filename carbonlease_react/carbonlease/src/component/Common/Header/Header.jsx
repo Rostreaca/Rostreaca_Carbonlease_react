@@ -1,6 +1,10 @@
 import { useEffect, useState } from 'react';
 import Nav from "../Nav/Nav";
-import { HeaderWrap, Topbar } from "./Header.styled";
+import { HeaderWrap } from "./Header.styled";
+import TopbarNotice from './TopbarNotice/TopbarNotice';
+import AuthLinks from './AuthLinks/AuthLinks';
+import { NavLink } from 'react-router-dom';
+
 
 const Header = () => {
     const [isScrolled, setIsScrolled] = useState(false);
@@ -32,17 +36,11 @@ const Header = () => {
     };
 
     return (
-        <HeaderWrap id="header" className={`header d-flex align-items-center  fixed-top ${isScrolled ? 'scrolled' : ''}`}>
-            {/* Topbar */}
-            <Topbar className="topbar d-flex align-items-center dark-background">
-                <div className="container d-flex justify-content-center justify-content-md-between">
-                    <div className="contact-info d-flex align-items-center">
-                        <i className="bi bi-megaphone d-flex align-items-center">
-                            <a href="#notices">공지사항영역</a>
-                        </i>
-                    </div>
-                </div>
-            </Topbar>
+        <HeaderWrap id="header" className={`header d-flex align-items-center fixed-top ${isScrolled ? 'scrolled' : ''}`}>
+            
+            {/* Topbar - 공지사항 */}
+            
+            <TopbarNotice />
 
             <div className="container position-relative d-flex align-items-center justify-content-between">
                 
@@ -54,11 +52,9 @@ const Header = () => {
                 {/* Navigation */}
                 <Nav isMobileNavOpen={isMobileNavOpen} onMobileNavToggle={handleMobileNavToggle} onNavLinkClick={closeMobileNav} />
                 
-                {/* Auth Links - desktop only */}
+                {/* Auth Links - 로그인/회원가입 */}
                 <div className="d-none d-xl-flex align-items-center" style={{gap: '8px'}}>
-                    <a href="#login" style={{color: 'var(--nav-color)', textDecoration: 'none', fontSize: '14px'}}>로그인</a>
-                    <span style={{color: 'var(--nav-color)'}}>|</span>
-                    <a href="#signup" style={{color: 'var(--nav-color)', textDecoration: 'none', fontSize: '14px'}}>회원가입</a>
+                    <AuthLinks/>
                 </div>
             </div>
         </HeaderWrap>

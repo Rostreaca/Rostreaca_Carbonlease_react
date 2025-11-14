@@ -1,5 +1,6 @@
 import styled from "styled-components";
 
+
 /* ----------------------------------------
     Global Header
 ---------------------------------------- */
@@ -7,7 +8,7 @@ export const HeaderWrap = styled.header`
     --background-color: rgba(255, 255, 255, 0);
     color: var(--default-color);
     background-color: var(--background-color);
-    padding: 0 0 15px 0;
+    padding: 0px 0 15px 0;
     transition: all 0.5s;
     z-index: 997;
     display: flex;
@@ -33,6 +34,10 @@ export const HeaderWrap = styled.header`
             overflow: hidden;
         }
     }
+
+    .container {
+        padding-top:15px;
+    }
 `;
 
 /* Topbar */
@@ -43,7 +48,7 @@ export const Topbar = styled.div`
     font-size: 14px;
     transition: all 0.5s;
     width: 100%;
-
+    padding-bottom:15px;
     .contact-info {
         i {
             font-style: normal;
