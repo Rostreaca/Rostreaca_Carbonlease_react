@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 // ===== Hero Section =====
 export const HeroSection = styled.section`
-    padding: 180px 0 80px 0;
+    padding: 180px 0 80px 0 ;
     margin-top: 80px;
     background: linear-gradient(135deg, var(--surface-color) 0%, color-mix(in srgb, var(--accent-color), transparent 95%) 100%);
     position: relative;
@@ -25,7 +25,7 @@ export const HeroSection = styled.section`
 
     /* Tablet */
     @media (max-width: 992px) {
-        padding: 140px 0 60px 0;
+        padding: 100px 0 60px 0;
         margin-top: 70px;
     }
 
@@ -612,7 +612,7 @@ export const CallToActionSection = styled.section`
     }
 `;
 
-// ===== Styles for Bootstrap Integration =====
+
 export const GlobalStyles = styled.div`
     .section {
         position: relative;
@@ -633,7 +633,6 @@ export const GlobalStyles = styled.div`
         }
     }
 
-    /* Small adjustments so Bootstrap buttons inside hero-actions align nicely */
     .hero-actions .btn {
         display: inline-flex;
         align-items: center;

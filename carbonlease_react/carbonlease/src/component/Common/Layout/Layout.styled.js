@@ -6,18 +6,6 @@ export const LayoutWrap = styled.div`
         min-height: calc(100vh - 200px);
     }
 
-    /* Section Spacing */
-    section {
-        padding: 60px 0;
-        overflow: hidden;
-    }
-
-    @media (max-width: 768px) {
-        section {
-            padding: 40px 0;
-        }
-    }
-
     /* Page Layout */
     .page-content {
         padding: 40px 0;

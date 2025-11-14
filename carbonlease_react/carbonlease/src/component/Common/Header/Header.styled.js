@@ -162,7 +162,7 @@ export const NavMenu = styled.nav`
             padding: 18px 15px;
             font-size: 16px;
             font-family: var(--nav-font);
-            font-weight: 400;
+            font-weight: 600;
             display: flex;
             align-items: center;
             justify-content: space-between;
