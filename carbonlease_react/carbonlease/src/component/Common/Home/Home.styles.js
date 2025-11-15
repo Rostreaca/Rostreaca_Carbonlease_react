@@ -711,7 +711,7 @@ export const GlobalStyles = styled.div`
 
     .section-title {
         text-align: center;
-        margin-bottom: 60px;
+        margin-bottom: 30px;
     }
 
     .row {
