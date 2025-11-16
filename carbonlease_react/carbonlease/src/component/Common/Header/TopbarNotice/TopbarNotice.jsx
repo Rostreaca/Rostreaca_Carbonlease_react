@@ -31,7 +31,7 @@ const TopbarNotice = () => {
                                     key={notice.id}
                                     className={`notice-item ${index === currentIndex ? 'active' : ''}`}
                                 >
-                                    <a href={`/notice/${notice.id}`}>{notice.text}</a>
+                                    <a href={`/notices/detail/${notice.id}`}>{notice.text}</a>
                                 </div>
                             ))}
                         </NoticeSlider>

@@ -2,10 +2,10 @@ import styled from 'styled-components';
 
 // ===== Hero Section =====
 export const HeroSection = styled.section`
-    padding: 130px 0 60px 0;
-    ${'' /* background: linear-gradient(135deg, var(--surface-color) 0%, color-mix(in srgb, var(--accent-color), transparent 95%) 100%); */}
-    position: relative;
+position: relative;
     overflow: hidden;
+    margin-top:120px;
+    padding: 45px 0;
 
     /* AOS 애니메이션 강제 비활성화 */
     & * {
@@ -19,7 +19,6 @@ export const HeroSection = styled.section`
         left: 0;
         right: 0;
         bottom: 0;
-        ${'' /* background: radial-gradient(circle at 20% 80%, color-mix(in srgb, var(--accent-color), transparent 90%) 0%, transparent 50%); */}
         pointer-events: none;
     }
 
@@ -31,13 +30,10 @@ export const HeroSection = styled.section`
         justify-content: center;
     }
 
-    @media (max-width: 992px) {
-        padding: 80px 0;
+    @media (max-width: 1200px) {
+        margin-top: 90px;
     }
 
-    @media (max-width: 768px) {
-        padding: 60px 0;
-    }
 `;
 
 export const HeroTitle = styled.h1`
@@ -48,8 +44,9 @@ export const HeroTitle = styled.h1`
     color: var(--heading-color);
 
     @media (max-width: 768px) {
-        font-size: 2.5rem;
+        font-size: 2rem;
         font-weight: 600;
+        margin-top:24px;
         margin-bottom: 24px;
     }
 `;
@@ -255,22 +252,10 @@ export const AboutInner = styled.div`
     display:flex;
     align-items: center;
     justify-content: center;
+    flex-wrap:wrap;
     gap:30px;
 `;
 
-// ===== Featured Services Section =====
-export const FeaturedServicesSection = styled.section`
-    --surface-color: color-mix(in srgb, var(--default-color), transparent 96%);
-    padding-top: 0;
-
-    @media (max-width: 1199px) {
-        padding: 60px 0;
-    }
-
-    @media (max-width: 768px) {
-        padding: 40px 0;
-    }
-`;
 
 export const ServiceItem = styled.div`
     background-color: var(--surface-color);
@@ -330,9 +315,6 @@ export const AboutSection = styled.section`
     @media (max-width: 768px) {
         padding: 40px 0;
     }
-    ${'' /* .container .row {
-        gap:20px;
-    } */}
 `;
 
 export const SectionTitle = styled.div`
@@ -433,7 +415,7 @@ export const AboutContent = styled.div`
                 justify-content: center;
                 width: 30px;
                 height: 30px;
-                color: var(--accent-color);
+                color: #0d6efd;
                 border-radius: 50%;
                 margin-right: 12px;
                 flex-shrink: 0;
@@ -468,89 +450,6 @@ export const AboutContent = styled.div`
             transform: translateY(-3px);
         }
     }
-`;
-
-// ===== Stats Section =====
-export const StatsSection = styled.section`
-    padding-bottom:100px;
-    background-color: var(--background-color);
-
-    /* AOS 애니메이션 강제 비활성화 */
-    & * {
-        opacity: 1 !important;
-        transform: none !important;
-    }
-
-    .stats-item {
-        background: white;
-        border-radius: 50%;
-        width: 180px;
-        height: 180px;
-        margin: 0 auto;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
-        border: 3px solid #e8e8e8;
-
-        @media (max-width: 992px) {
-            width: 160px;
-            height: 160px;
-        }
-
-        @media (max-width: 768px) {
-            width: 140px;
-            height: 140px;
-        }
-
-        span {
-            font-size: 32px;
-            display: block;
-            color: #1976d2;
-            font-weight: 700;
-            margin-bottom: 6px;
-
-            @media (max-width: 992px) {
-                font-size: 28px;
-            }
-
-            @media (max-width: 768px) {
-                font-size: 24px;
-            }
-        }
-
-        p {
-            color: color-mix(in srgb, var(--default-color), transparent 30%);
-            padding: 0;
-            margin: 0;
-            font-family: var(--heading-font);
-            font-size: 12px;
-            font-weight: 600;
-            text-align: center;
-            line-height: 1.4;
-
-            @media (max-width: 768px) {
-                font-size: 10px;
-            }
-        }
-    }
-
-    @media (max-width: 1199px) {
-        padding-bottom: 60px;
-    }
-
-    @media (max-width: 768px) {
-        padding-bottom: 40px;
-    }
-`;
-
-export const StatsItem = styled.div`
-    padding: 30px;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
 `;
 
 // ===== Services Section =====
@@ -711,7 +610,7 @@ export const GlobalStyles = styled.div`
 
     .section-title {
         text-align: center;
-        margin-bottom: 30px;
+        margin-bottom:40px;
     }
 
     .row {

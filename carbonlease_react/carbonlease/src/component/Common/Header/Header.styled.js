@@ -9,6 +9,7 @@ export const HeaderWrap = styled.header`
     color: var(--default-color);
     background-color: var(--background-color);
     ${'' /* padding: 0px 0 15px 0; */}
+    border-bottom: 1px solid color-mix(in srgb, var(--default-color), transparent 90%);
     transition: all 0.5s;
     z-index: 997;
     display: flex;

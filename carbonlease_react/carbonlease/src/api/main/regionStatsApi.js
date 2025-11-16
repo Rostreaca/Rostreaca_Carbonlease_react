@@ -1,17 +1,16 @@
-// 지역별 탄소중립 포인트 API
-export const getRegionCarbonStats = async () => {
-    try {
-        // Open API 호출 시 사용
-        // const response = await fetch('YOUR_API_ENDPOINT');
-        // const data = await response.json();
-        // return formatRegionStatsForMap(data);
 
-        // 임시 더미 데이터
-        return getDummyRegionStats();
-    } catch (error) {
-        console.error('Error fetching region carbon stats:', error);
-        return getDummyRegionStats(); // fallback to dummy data
-    }
+// 지역별 탄소중립 포인트 API
+export const getRegionCarbonStats = () => {
+    // Spring Boot API 호출 (실제 API 사용 시 주석 해제 및 URL 수정)
+    // return axios.get('http://localhost:8080/api/region/carbon-stats')
+    //     .then(response => formatRegionStatsForMap(response.data))
+    //     .catch(error => {
+    //         console.error('Error fetching region carbon stats:', error);
+    //         return getDummyRegionStats(); // fallback to dummy data
+    //     });
+
+    // 임시 더미 데이터
+    return Promise.resolve(getDummyRegionStats());
 };
 
 // API 응답 데이터를 지도 형식으로 변환

@@ -1,27 +1,28 @@
 import { Route, Routes } from 'react-router-dom';
-import { GlobalCommonStyles } from './styles/global.styled';
 import './App.css';
-import Layout from "./component/Common/Layout/Layout";
-import Home from "./component/Common/Home/Home";
-import Boards from "./component/Board/Boards/Boards";
-import BoardDetail from "./component/Board/BoardDetail/BoardDetail";
-import ActivityBoards from "./component/ActivityBoard/ActivityBoards/ActivityBoards";
 import ActivityBoardDetail from "./component/ActivityBoard/ActivityBoardDetail/AcitivityBoardDetail";
-import Notices from './component/Notice/Notices/Notices';
-import NoticeDetail from './component/Notice/NoticeDetail/NoticeDetail';
-import Campaigns from './component/Campaign/Campaigns/Campaigns';
+import ActivityBoards from "./component/ActivityBoard/ActivityBoards/ActivityBoards";
+import BoardDetail from "./component/Board/BoardDetail/BoardDetail";
+import Boards from "./component/Board/Boards/Boards";
 import CampaignDetail from './component/Campaign/CampaignDetail/CampaignDetail';
-import Login from './component/Member/Login/Login';
+import Campaigns from './component/Campaign/Campaigns/Campaigns';
+import ComponentGuide from './component/Common/ComponentGuide/ComponentGuide';
+import Home from "./component/Common/Home/Home";
+import Layout from "./component/Common/Layout/Layout";
 import EnrollForm from './component/Member/EnrollForm/EnrollForm';
+import Login from './component/Member/Login/Login';
+import NoticeDetail from './component/Notice/NoticeDetail/NoticeDetail';
+import Notices from './component/Notice/Notices/Notices';
+import { GlobalCommonStyles } from './styles/global.styled';
 
 // Admin Components
-import AdminLogin from './component/Admin/Login/AdminLogin';
-import AdminLayout from './component/Admin/Layout/AdminLayout';
-import AdminHome from './component/Admin/AdminHome';
-import AdminNotices from './component/Admin/Notice/AdminNotices';
-import AdminCampaigns from './component/Admin/Campaign/AdminCampaigns';
 import AdminActivityBoards from './component/Admin/ActivityBoard/AdminActivityBoards';
+import AdminHome from './component/Admin/AdminHome';
 import AdminBoards from './component/Admin/Board/AdminBoards';
+import AdminCampaigns from './component/Admin/Campaign/AdminCampaigns';
+import AdminLayout from './component/Admin/Layout/AdminLayout';
+import AdminLogin from './component/Admin/Login/AdminLogin';
+import AdminNotices from './component/Admin/Notice/AdminNotices';
 import AdminUsers from './component/Admin/User/AdminUsers';
 
 
@@ -40,9 +41,10 @@ function App() {
 				<Route path="/notices" element={<Notices />} />
 				<Route path="/notices/:id" element={<NoticeDetail />} />
 				<Route path="/campaigns" element={<Campaigns />} />
-				<Route path="/campaigns/:id" element={<CampaignDetail />} />
+				<Route path="/campaigns/detail/:id" element={<CampaignDetail />} />
 				<Route path="/login" element={<Login/>} />
 				<Route path="/member/enrollForm" element={<EnrollForm/>} />
+				<Route path="/guide" element={<ComponentGuide />} />
 			</Route>
 
 			{/* Admin Routes - without user Layout */}

@@ -4,9 +4,6 @@ export const MapContainer = styled.div`
     width: 100%;
     height: 100%;
     min-height: 450px;
-    ${'' /* background: linear-gradient(135deg, #f5f7fa 0%, #e3f2fd 100%); */}
-    ${'' /* border-radius: 12px; */}
-    ${'' /* padding: 20px; */}
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -14,7 +11,6 @@ export const MapContainer = styled.div`
 
     @media (max-width: 768px) {
         min-height: 350px;
-        padding: 15px;
     }
 `;
 
@@ -22,16 +18,46 @@ export const InfoBox = styled.div`
     background-color: #f0f9ff;
     padding: 16px;
     border-radius: 12px;
-    ${'' /* margin-top: 16px; */}
     border: 1px solid #d1e8f5;
     display: flex;
     align-items: center;
     gap: 12px;
+    position: relative;
+    ${'' /* margin-bottom: 24px; */}
+
+    /* 말풍선 꼬리 (아래 가리키는 삼각형) */
+    &::after {
+        content: '';
+        position: absolute;
+        z-index:1;
+        bottom: -9px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 0;
+        height: 0;
+        border-left: 10px solid transparent;
+        border-right: 10px solid transparent;
+        border-top: 10px solid #f0f9ff;
+    }
+
+    /* 꼬리 테두리 */
+    &::before {
+        content: '';
+        position: absolute;
+        bottom: -11px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 0;
+        height: 0;
+        border-left: 11px solid transparent;
+        border-right: 11px solid transparent;
+        border-top: 11px solid #d1e8f5;
+        z-index: -1;
+    }
 
     @media (max-width: 768px) {
-        margin-top: 30px;
-        padding: 12px 16px;
         gap: 10px;
+        margin-bottom: 20px;
     }
 `;
 

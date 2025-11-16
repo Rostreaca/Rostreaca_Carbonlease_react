@@ -76,87 +76,87 @@ const RegionStatsMap = () => {
                     style={{ width: '100%', height: 'auto'}}
                 >
                     <Geographies geography="/maps/south-korea-provinces.json">
-                            {({ geographies }) =>
-                                geographies.map((geo) => (
-                                    <Geography
-                                        key={geo.rsmKey}
-                                        geography={geo}
-                                        fill="#e8f0f3ff"
-                                        stroke="#a1d4e6ff"
-                                        strokeWidth={1.5}
+                        {({ geographies }) =>
+                            geographies.map((geo) => (
+                                <Geography
+                                    key={geo.rsmKey}
+                                    geography={geo}
+                                    fill="#e8f0f3ff"
+                                    stroke="#a1d4e6ff"
+                                    strokeWidth={1.5}
+                                    style={{
+                                        default: { outline: 'none' },
+                                        hover: { 
+                                            fill: '#aad3e2ff',
+                                            outline: 'none'
+                                        },
+                                        pressed: { outline: 'none' }
+                                    }}
+                                />
+                            ))
+                        }
+                    </Geographies>
+
+                    {/* 버블 마커 */}
+                    {regionData.map((region) => {
+                        const size = getBubbleSize(region.value);
+                        const isHovered = hoveredRegion === region.region;
+                        
+                        return (
+                            <Marker
+                                key={region.region}
+                                coordinates={[region.lng, region.lat]}
+                            >
+                                <g
+                                    onMouseEnter={() => {
+                                        setHoveredRegion(region.region);
+                                        setTooltipContent(`${region.region}: ${region.value.toLocaleString()} 포인트`);
+                                    }}
+                                    onMouseLeave={() => {
+                                        setHoveredRegion(null);
+                                        setTooltipContent('');
+                                    }}
+                                    style={{ cursor: 'pointer' }}
+                                >
+                                    <circle
+                                        r={isHovered ? size + 3 : size}
+                                        fill="#34ade5b8"
+                                        fillOpacity={isHovered ? 0.95 : 0.85}
+                                        stroke="#34ade5b8"
+                                        strokeWidth={2}
                                         style={{
-                                            default: { outline: 'none' },
-                                            hover: { 
-                                                fill: '#aad3e2ff',
-                                                outline: 'none'
-                                            },
-                                            pressed: { outline: 'none' }
+                                            transition: 'all 0.3s ease',
+                                            filter: 'drop-shadow(2px 2px 4px rgba(0,0,0,0.3))'
                                         }}
                                     />
-                                ))
-                            }
-                        </Geographies>
-
-                        {/* 버블 마커 */}
-                        {regionData.map((region) => {
-                            const size = getBubbleSize(region.value);
-                            const isHovered = hoveredRegion === region.region;
-                            
-                            return (
-                                <Marker
-                                    key={region.region}
-                                    coordinates={[region.lng, region.lat]}
-                                >
-                                    <g
-                                        onMouseEnter={() => {
-                                            setHoveredRegion(region.region);
-                                            setTooltipContent(`${region.region}: ${region.value.toLocaleString()} 포인트`);
+                                    <text
+                                        textAnchor="middle"
+                                        y={-size - 10}
+                                        style={{
+                                            fill: '#333333',
+                                            fontSize: isHovered ? '22px' : '20px',
+                                            fontWeight: 'bold',
+                                            pointerEvents: 'none'
                                         }}
-                                        onMouseLeave={() => {
-                                            setHoveredRegion(null);
-                                            setTooltipContent('');
-                                        }}
-                                        style={{ cursor: 'pointer' }}
                                     >
-                                        <circle
-                                            r={isHovered ? size + 3 : size}
-                                            fill="#34ade5b8"
-                                            fillOpacity={isHovered ? 0.95 : 0.85}
-                                            stroke="#34ade5b8"
-                                            strokeWidth={2}
-                                            style={{
-                                                transition: 'all 0.3s ease',
-                                                filter: 'drop-shadow(2px 2px 4px rgba(0,0,0,0.3))'
-                                            }}
-                                        />
-                                        <text
-                                            textAnchor="middle"
-                                            y={-size - 10}
-                                            style={{
-                                                fill: '#333333',
-                                                fontSize: isHovered ? '22px' : '20px',
-                                                fontWeight: 'bold',
-                                                pointerEvents: 'none'
-                                            }}
-                                        >
-                                            {region.region}
-                                        </text>
-                                        <text
-                                            textAnchor="middle"
-                                            y={5}
-                                            style={{
-                                                fill: '#ffffff',
-                                                fontSize: '20px',
-                                                fontWeight: 'bold',
-                                                pointerEvents: 'none'
-                                            }}
-                                        >
-                                            {(region.value / 1000).toFixed(1)}k
-                                        </text>
-                                    </g>
-                                </Marker>
-                            );
-                        })}
+                                        {region.region}
+                                    </text>
+                                    <text
+                                        textAnchor="middle"
+                                        y={5}
+                                        style={{
+                                            fill: '#ffffff',
+                                            fontSize: '20px',
+                                            fontWeight: 'bold',
+                                            pointerEvents: 'none'
+                                        }}
+                                    >
+                                        {(region.value / 1000).toFixed(1)}k
+                                    </text>
+                                </g>
+                            </Marker>
+                        );
+                    })}
                 </ComposableMap>
                 
                 {/* 호버 시 툴팁 */}
@@ -166,23 +166,6 @@ const RegionStatsMap = () => {
                     </Tooltip>
                 )}
             </MapWrapper>
-            
-            {/* 범례 */}
-            {/* <Legend>
-                <LegendTitle>광역시 지역별 탄소중립 포인트</LegendTitle>
-                <LegendRow>
-                    <LegendCircle size="small" />
-                    <span>낮음</span>
-                </LegendRow>
-                <LegendRow>
-                    <LegendCircle size="medium" />
-                    <span>보통</span>
-                </LegendRow>
-                <LegendRow>
-                    <LegendCircle size="large" />
-                    <span>높음</span>
-                </LegendRow>
-            </Legend> */}
         </MapContainer>
     );
 };
