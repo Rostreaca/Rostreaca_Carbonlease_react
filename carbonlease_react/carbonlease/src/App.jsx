@@ -1,7 +1,9 @@
 import { Route, Routes } from 'react-router-dom';
 import './App.css';
 import ActivityBoardDetail from "./component/ActivityBoard/ActivityBoardDetail/AcitivityBoardDetail";
+import ActivityBoardInsertForm from "./component/ActivityBoard/ActivityBoardInsertForm/ActivityBoardInsertForm";
 import ActivityBoards from "./component/ActivityBoard/ActivityBoards/ActivityBoards";
+import ActivityBoardUpdateForm from "./component/ActivityBoard/ActivityBoardUpdateForm/ActivityBoardUpdateForm";
 import BoardDetail from "./component/Board/BoardDetail/BoardDetail";
 import Boards from "./component/Board/Boards/Boards";
 import CampaignDetail from './component/Campaign/CampaignDetail/CampaignDetail';
@@ -24,6 +26,8 @@ import AdminLayout from './component/Admin/Layout/AdminLayout';
 import AdminLogin from './component/Admin/Login/AdminLogin';
 import AdminNotices from './component/Admin/Notice/AdminNotices';
 import AdminUsers from './component/Admin/User/AdminUsers';
+import SamplePage from "./component/Sample/SamplePage";
+
 
 
 function App() {
@@ -38,6 +42,8 @@ function App() {
 				<Route path="/boards/:id" element={<BoardDetail />} />
 				<Route path="/activityBoards" element={<ActivityBoards />} />
 				<Route path="/activityBoards/:id" element={<ActivityBoardDetail />} />
+				<Route path="/activityBoard/insertForm" element={<ActivityBoardInsertForm />} />
+				<Route path="/activityBoard/updateForm/:id" element={<ActivityBoardUpdateForm />} />
 				<Route path="/notices" element={<Notices />} />
 				<Route path="/notices/:id" element={<NoticeDetail />} />
 				<Route path="/campaigns" element={<Campaigns />} />
@@ -45,6 +51,9 @@ function App() {
 				<Route path="/login" element={<Login/>} />
 				<Route path="/member/enrollForm" element={<EnrollForm/>} />
 				<Route path="/guide" element={<ComponentGuide />} />
+				
+				{/* Sample Page Route */}
+				<Route path="/sample" element={<SamplePage />} />
 			</Route>
 
 			{/* Admin Routes - without user Layout */}
