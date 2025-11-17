@@ -131,16 +131,21 @@ export const ProfileNickname = styled.div`
 
 export const ProfileAndLike = styled.div`
   display: flex;
-  justify-content: center;
-  align-items: stretch;
-  gap: 24px;
+  justify-content: space-between;
+  align-items: center;
+  gap: 30px;
   width: 100%;
   margin: 40px 0;
   flex-wrap: wrap;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    justify-content: center;
+  }
 `;
 
 export const LikeCard = styled.div`
-  width: 310px;
+  width: 240px;
   background: ${props => props.$liked ? '#00a34a' : '#ffffff'};
   color: ${props => props.$liked ? '#ffffff' : '#333'};
   border: 1px solid ${props => props.$liked ? '#00a34a' : '#ddd'};
@@ -170,4 +175,56 @@ export const LikeCard = styled.div`
   }
 `;
 
+export const Wrap = styled.div`
+  width: 110px;  /* 기존 140px → 축소 */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 6px 0;
+`;
 
+export const Title = styled.div`
+  font-size: 13px; /* 기존 14px */
+  font-weight: 600;
+  margin-bottom: 4px;
+  color: #444;
+  text-align: center;
+`;
+
+export const ThermoBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+export const Tube = styled.div`
+  width: 16px; /* 기존 22px 줄임 */
+  height: 90px; /* 기존 150px 줄임 */
+  background: #e6e6e6;
+  border-radius: 18px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column-reverse;
+  border: 2px solid #ccc;
+`;
+
+export const Fill = styled.div`
+  width: 100%;
+  transition: height 0.4s ease;
+`;
+
+export const Bulb = styled.div`
+  width: 32px;  /* 기존 42px → 축소 */
+  height: 32px;
+  border-radius: 50%;
+  margin-top: -6px;
+  border: 2px solid #ccc;
+`;
+
+export const Value = styled.div`
+  font-size: 12px;
+  margin-top: 4px;
+  color: #333;
+  text-align: center;
+  line-height: 1.35;
+`;

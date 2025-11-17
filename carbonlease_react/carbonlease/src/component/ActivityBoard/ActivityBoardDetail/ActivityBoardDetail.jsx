@@ -7,6 +7,7 @@ import BoardContent from "./components/BoardContent.jsx";
 import ImageSection from "./components/ImageSection.jsx";
 import PostHeader from "./components/PostHeader.jsx";
 import PostTitle from "./components/Title.jsx";
+import ThermometerGauge from "./components/ThermometerGauge.jsx";
 import ReplyPagination from "../../Common/UI/ReplyPagination.jsx";
 import ProfileCard from "./components/ProfileCard.jsx";
 import MapSection from "./components/MapSection.jsx";
@@ -116,11 +117,18 @@ const ActivityBoardDetail = () => {
               carbon={post.profile.totalCarbonSave}
               grade={post.profile.grade}
             />
+
+            <ThermometerGauge
+              value={post.profile.totalCarbonSave}
+              max={30}
+            />
+
             <LikeCard $liked={post.isLiked} onClick={handleLikeToggle}>
               <i className={post.isLiked ? 'bi bi-heart-fill' : 'bi bi-heart'} />
               {post.isLiked ? '공감 취소' : '공감하기'}
             </LikeCard>
           </ProfileAndLike>
+
 
           {/* 버튼 */}
           <ButtonArea>
