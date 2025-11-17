@@ -43,11 +43,11 @@ export const AuthProvider = ({ children }) => {
             isAuthenticated : false,
         });
 
-        localStorage.removeItem("memberId",memberId);
-        localStorage.removeItem("nickName",nickName);
-        localStorage.removeItem("accessToken",accessToken);
-        localStorage.removeItem("refreshToken",refreshToken);
-        localStorage.removeItem("role",role);
+        localStorage.removeItem("memberId");
+        localStorage.removeItem("nickName");
+        localStorage.removeItem("accessToken");
+        localStorage.removeItem("refreshToken");
+        localStorage.removeItem("role");
 
         navi('/');
 

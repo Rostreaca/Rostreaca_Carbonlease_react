@@ -8,27 +8,32 @@ import { Button } from 'react-bootstrap';
 import OutlineWarningButton from '../../Sample/Outlinebuttons/OutlineWarningButton';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import Alert from '../../Common/Alert/Alert';
 
 
 const Login = () => {
 
+    const [showAlert, setShowAlert] = useState(false);
+    const [alertVariant, setAlertVariant] = useState('info');
     const [memberId, setMemberId] = useState("");
     const [memberPwd, setMemberPwd] = useState("");
     const [msg, setMsg] = useState("");
     const { login } = useContext(AuthContext);
     const navi = useNavigate();
 
+
     const handleLogin= (e) => {
         e.preventDefault();
+        //const regexp = 
 
         axios.post("http://localhost/auth/login",{
             memberId, memberPwd
         }).then(result => {
             //console.log(result);
             const {memberId, nickName, accessToken, refreshToken, role} = result.data;
-            login(memberId, nickName, accessToken, refreshToken, role);
+            login(memberId, nickName, accessToken, refreshToken, role);  
+            setShowAlert(true);        
 
-            
             navi('/');
 
         }).catch(error => {
@@ -69,6 +74,13 @@ const Login = () => {
                 </form>
 
             </PageContent>
+            <Alert
+                show={showAlert}
+                onClose={() => setShowAlert(false)}
+                title= '로그인'
+                message= '로그인에 성공하였습니다.'
+                variant={alertVariant}
+            />
         </>
     )
 }
