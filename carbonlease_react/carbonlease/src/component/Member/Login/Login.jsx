@@ -9,6 +9,7 @@ import OutlineWarningButton from '../../Sample/Outlinebuttons/OutlineWarningButt
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import Alert from '../../Common/Alert/Alert';
+import { FieldLabel } from '../../Common/Form/FormField.styled';
 
 
 const Login = () => {
@@ -17,14 +18,25 @@ const Login = () => {
     const [alertVariant, setAlertVariant] = useState('info');
     const [memberId, setMemberId] = useState("");
     const [memberPwd, setMemberPwd] = useState("");
-    const [msg, setMsg] = useState("");
+    const [idMsg, setIdMsg] = useState("");
+    const [pwdMsg, setPwdMsg] = useState("");
     const { login } = useContext(AuthContext);
     const navi = useNavigate();
 
 
     const handleLogin= (e) => {
         e.preventDefault();
-        //const regexp = 
+        const regexp = /^[a-zA-Z0-9]{4,20}$/;
+        if(!regexp.test(memberId)){
+            setIdMsg("아이디는 4-20자사이의 영문 숫자로만 입력할 수 있습니다.");
+            return;
+        } else if(!regexp.test(memberPwd)){
+            setPwdMsg("비밀번호는 4-20자사이의 영문 숫자로만 입력할 수 있습니다.");
+            return;
+        } else {
+            setIdMsg("");
+            setPwdMsg("");
+        }
 
         axios.post("http://localhost/auth/login",{
             memberId, memberPwd
@@ -33,11 +45,13 @@ const Login = () => {
             const {memberId, nickName, accessToken, refreshToken, role} = result.data;
             login(memberId, nickName, accessToken, refreshToken, role);  
             setShowAlert(true);        
-
-            navi('/');
+            setAlertVariant('info');
+            //navi('/');
 
         }).catch(error => {
-            console.error(error);
+            //console.error(error);
+            setShowAlert(true);        
+            setAlertVariant('warning');
         }
         )
     }
@@ -61,26 +75,28 @@ const Login = () => {
                         onChange={(e) => setMemberId(e.target.value)}
                         required
                     />
+                    <FieldLabel>{idMsg}</FieldLabel>
                     <FormField
                         label="비밀번호"
-                        type="text"
+                        type="password"
                         name="password"
                         placeholder="비밀번호를 입력하세요"
                         onChange={(e) => setMemberPwd(e.target.value)}
                         required
                     />
+                    <FieldLabel>{pwdMsg}</FieldLabel>
+
                     <Button variant='success' type='submit'>로그인</Button>
                     <Button variant='dark' type='button'>회원가입</Button>
                 </form>
-
-            </PageContent>
             <Alert
                 show={showAlert}
-                onClose={() => setShowAlert(false)}
-                title= '로그인'
-                message= '로그인에 성공하였습니다.'
+                onClose={() => {setShowAlert(false), alertVariant === 'info' ? navi('/') : <></>}}
+                title= { alertVariant === 'info' ? '로그인 성공' : '로그인 실패'}
+                message= { alertVariant === 'info' ? '로그인에 성공하였습니다.' : '로그인에 실패했습니다.'}
                 variant={alertVariant}
             />
+            </PageContent>
         </>
     )
 }
