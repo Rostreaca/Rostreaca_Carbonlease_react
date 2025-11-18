@@ -14,17 +14,23 @@ const ActivityBoards = () => {
     const navigate = useNavigate();
     const [ boards, setBoards ] = useState([]);
     const [ page, setPage] = useState(0);
+    const [ totalPages, setTotalPages] = useState(1);
+    const [ pageInfo, setPageInfo ] = useState({ startPage: 1, endPage: 1, maxPage: 1 });
 
-    const [ filter, setFilter ] = useState('title'); // 검색 필터 상태
-    const [ keyword, setKeyword ] = useState(''); // 검색어 상태
+    const [ filter, setFilter ] = useState('title'); 
+    const [ keyword, setKeyword ] = useState('');
+
+    const token = localStorage.getItem("accessToken");
 
     const fetchBoards = async () => {
         try {
             const res = await axios.get(
-                `http://localhost/activityBoards?page=${page}&filter=${filter}&keyword=${keyword}`
+                `http://localhost:80/activityBoards?page=${page}&filter=${filter}&keyword=${keyword}`,
+                { headers: { Authorization: token ? `Bearer ${token}` : undefined } }
             );
-            console.log("API RESULT:", res.data);
-            setBoards(res.data);
+            setBoards(res.data.list);
+            setPageInfo(res.data.pageInfo);
+            setTotalPages(res.data.pageInfo.maxPage);
         } catch (err) {
             console.error("게시글 조회 실패:", err);
         }
@@ -40,6 +46,7 @@ const ActivityBoards = () => {
         setPage(0);
         setKeyword(value);
     }
+
     return (
         <>
             <PageTitle 
@@ -50,7 +57,7 @@ const ActivityBoards = () => {
                 ]} 
             />
             <PageContent>
-                
+
                 <div style={{ width:"1200px", margin:"0 auto", padding:"40px 0" }}>
                     {boards.length > 0 ? (
                         boards.map((item, idx) => (
@@ -79,15 +86,20 @@ const ActivityBoards = () => {
 
                 <div style={{ display: "flex", justifyContent: "center", marginTop:"20px" }}>
                     <Pagination
-                        currentPage={page + 1}
-                        totalPages={5} 
-                        pageNumbers={[1, 2, 3, 4, 5]}
-                        onPrevPage={() => page > 0 && setPage(page - 1)}
+                        currentPage={pageInfo.currentPage}
+                        totalPages={pageInfo.maxPage}
+                        pageNumbers={Array.from(
+                            { length: pageInfo.endPage - pageInfo.startPage + 1 },
+                            (_, i) => pageInfo.startPage + i
+                        )}
+                        onFirstPage={() => setPage(0)}
+                        onPrevPage={() => setPage(prev => Math.max(prev - 1, 0))}
                         onPageClick={(num) => setPage(num - 1)}
-                        onNextPage={() => setPage(page + 1)}
+                        onNextPage={() => setPage(prev => Math.min(prev + 1, totalPages - 1))}
+                        onLastPage={() => setPage(totalPages - 1)}
                     />
+
                 </div>
-                
 
             </PageContent>
         </>
