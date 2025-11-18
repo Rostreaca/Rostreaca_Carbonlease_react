@@ -1,66 +1,90 @@
 import DataTable from '../../Common/DataTable/DataTable';
 import Pagination from '../../Common/Pagination/Pagination';
 
+import { useState, useEffect } from 'react';
+import axios from 'axios';
+import PaginationTest from '../../Common/Pagination/PaginationTest';
 
-// TODO: field 명 수정해줄것
 function NoticesList() {
 
-    const [currentPage, setCurrentPage] = '1';
-    const [totalPages, setTotalPages] = '1';
-    const [pageNumbers, setPageNumbers] = [1, 2, 3, 4, 5];
-    
+    const [currentPage, setCurrentPage] = useState(1);
+    const [notice, setNotice] = useState([]);
+    const [pageInfo, setPageInfo] = useState({
+        startPage:"",
+        endPage:"",
+        totalPage:""
+    });
+
+    useEffect (()=>{
+
+        getNoticeList(currentPage);
+        getPageInfo();
+
+    }, [currentPage])
+
+    const getNoticeList = (page) =>{
+        axios
+            .get(`http://localhost/notices?pageNo=${currentPage}`)
+            .then((result) => {
+                //console.log(result) //data Array OK
+                const response = result.data
+                //console.log(response);
+                setNotice([...response]);
+            })
+    }
+
+    const getPageInfo = (() =>{
+        axios
+            .get(`http://localhost/notices/count?pageNo=${currentPage}`)
+            .then((result) => {
+                const response = result.data
+                setPageInfo({
+                    startPage: response.startPage,
+                    endPage: response.endPage,
+                    totalPage: response.maxPage
+                })
+                console.log(pageInfo);
+            })
+    })
+
     const columns = [
         {
             header: '순번',
-            field: 'campaignNo'
+            field: 'noticeNo'
         },
         {
             header: '제목',
-            field: 'campaignTitle',
+            field: 'noticeTitle',
             render: (value) => <strong>{value}</strong>
 
         },
-        {
+        {   
             header: '등록일자',
-            field: 'categoryNo',
+            field: 'createDate',
             render: (value) => <strong>{value}</strong>
         },
         {
             header: '조회수',
-            field: 'status',
+            field: 'viewCount',
             render: (value) => <strong>{value}</strong>
         },
        
-    ];
-    
-    const data = [
-        { 
-            campaignNo: 1, 
-            campaignTitle: '친환경 캠페인',
-            categoryNo: '환경',
-            status: '진행중' 
-        },
-        { 
-            campaignNo: 2, 
-            campaignTitle: '탄소중립 실천',
-            categoryNo: '기술',
-            status: '종료' 
-        }
     ];
 
     return (
         <>
         <DataTable
-            title="캠페인 목록"
+            title="공지사항 목록"
             columns={columns}
-            data={data}
-            icon="fas fa-leaf" />
-            
-            <Pagination>
-                currentPage={currentPage}
-                totalPages={totalPages}
-                pageNumbers={pageNumbers}
-            </Pagination>
+            data={notice}
+            icon="fas fa-leaf" 
+        />
+
+        <PaginationTest
+            currentPage={currentPage} 
+            setCurrentPage={setCurrentPage}
+            pageInfo={pageInfo}
+        />
         </>
     )
 }

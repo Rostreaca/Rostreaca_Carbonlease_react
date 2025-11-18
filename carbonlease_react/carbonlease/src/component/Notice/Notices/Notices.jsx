@@ -10,14 +10,12 @@ const Notices = () => {
                 title="공지사항" 
                 breadcrumbs={[
                     { label: 'Home', path: '/' },
-                    { label: '공지사항', current: true }
+                    { label: '공지사항', current: true}
                 ]} 
             />
-
-            <NoticeCalendar />
-
             <PageContent>
-               <NoticesList></NoticesList>
+                {/* <NoticeCalendar /> */}
+               <NoticesList />
             </PageContent>
         </>
     )

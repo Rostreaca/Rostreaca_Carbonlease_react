@@ -1,8 +1,8 @@
 import { PageButton, PaginationContainer } from './Pagination.styled';
 
 const Pagination = ({ 
-    currentPage = 1, 
-    totalPages = 1, 
+    currentPage, 
+    totalPages, 
     pageNumbers = [],
     onFirstPage,
     onPrevPage, 
