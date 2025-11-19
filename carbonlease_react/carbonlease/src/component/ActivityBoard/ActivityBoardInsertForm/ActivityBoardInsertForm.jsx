@@ -55,8 +55,12 @@ const ActivityBoardInsertForm = () => {
             },
           } 
         );
+        const newActivityNo = res.data.activityNo;
+
         console.log("Token:", token);
         alert("등록 완료!");
+
+        window.location.href = `/activityBoards/${newActivityNo}`;
       } catch (err) {
         console.error("등록 실패:", err);
         alert("등록 실패하였습니다.");
