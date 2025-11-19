@@ -25,11 +25,10 @@ const ActivityBoardUpdateForm = () => {
   const [originImg, setOriginImg] = useState(""); // 기존 이미지 URL
   const [category, setCategory] = useState("");
 
-  /** 📌 기존 게시글 데이터 불러오기 */
   useEffect(() => {
     async function fetchData() {
       try {
-        const res = await fetch(`http://localhost/activityBoards/${id}`);
+        const res = await fetch(`http://localhost/activityBoards/updateForm/${id}`);
         const data = await res.json();
 
         setTitle(data.title);
@@ -47,7 +46,6 @@ const ActivityBoardUpdateForm = () => {
     fetchData();
   }, [id]);
 
-  /** 📌 수정 요청 */
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -60,10 +58,9 @@ const ActivityBoardUpdateForm = () => {
     formData.append("regionNo", regionNo);
     formData.append("certificationNo", category);
 
-    // 새 파일 업로드시만 추가
     if (file) formData.append("file", file);
 
-    console.log("📤 수정 데이터:", Object.fromEntries(formData));
+    console.log("수정 데이터:", Object.fromEntries(formData));
 
     alert("수정 완료 (Mock)");
     navigate(`/activityBoards/${id}`);
