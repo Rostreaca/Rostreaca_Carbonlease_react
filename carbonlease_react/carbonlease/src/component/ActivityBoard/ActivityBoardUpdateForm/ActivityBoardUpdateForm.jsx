@@ -33,12 +33,12 @@ const ActivityBoardUpdateForm = () => {
 
         setTitle(data.title);
         setContent(data.content);
-        setAddress(data.address);
+        //setAddress(data.address);
         setLat(data.lat);
         setLng(data.lng);
         setRegionNo(data.regionNo);
         setCategory(data.certificationNo);
-        setOriginImg(data.thumbnailUrl); // 기존 썸네일 이미지
+        setOriginImg(data.thumbnailPath); // 기존 썸네일 이미지
       } catch (err) {
         console.error("게시글 불러오기 실패:", err);
       }
