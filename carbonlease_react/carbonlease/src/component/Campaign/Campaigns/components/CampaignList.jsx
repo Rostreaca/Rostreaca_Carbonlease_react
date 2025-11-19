@@ -9,6 +9,7 @@ import { useCampaignList } from '../useCampaignList';
 
 // 캠페인 리스트 컴포넌트
 const CampaignList = ({ onShowToast }) => {
+    
         const navigate = useNavigate();
 
         // 인증 정보 가져오기
@@ -19,7 +20,6 @@ const CampaignList = ({ onShowToast }) => {
             campaigns,
             currentPage,
             setCurrentPage,
-            totalPages,
             loading,
             pageInfo,
             handleLikeToggle,
@@ -57,14 +57,11 @@ const CampaignList = ({ onShowToast }) => {
                         />
                     ))}
                 </CampaignGrid>
-                {campaigns.length > 0 && (
-                    <Pagination
-                        currentPage={currentPage}
-                        totalPages={totalPages}
-                        setCurrentPage={setCurrentPage}
-                        pageInfo={pageInfo}
-                    />
-                )}
+                <Pagination
+                    currentPage={currentPage} 
+                    setCurrentPage={setCurrentPage}
+                    pageInfo={pageInfo}
+                />
             </CampaignListContainer>
         );
     };

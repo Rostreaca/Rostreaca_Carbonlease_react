@@ -1,17 +1,21 @@
 import { useState, useEffect } from 'react';
-import { selectCampaignListWithPage as selectCampaignList, toggleLike } from '../../../api/campaign/campaignApi';
+import { selectCampaignList, toggleLike } from '../../../api/campaign/campaignApi';
 import campaignStore from '../../../store/campaignStore';
 
 export function useCampaignList(onShowToast, auth) {
     const [campaigns, setCampaigns] = useState([]);
-    const [currentPage, setCurrentPage] = useState(1);
-    const [totalPages, setTotalPages] = useState(1);
     const [loading, setLoading] = useState(true);
-    const [pageInfo, setPageInfo] = useState(null);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [pageInfo, setPageInfo] = useState({
+        startPage: 1,
+        endPage: 1,
+        totalPage: 1
+    });
 
     useEffect(() => {
         fetchCampaigns(currentPage);
     }, [currentPage]);
+
 
     // 캠페인 목록 불러오기
     const fetchCampaigns = (page) => {
@@ -37,7 +41,6 @@ export function useCampaignList(onShowToast, auth) {
 
                 // 상태 업데이트
                 setCampaigns(updatedCampaigns);
-                setTotalPages(pageInfo.maxPage);
                 setPageInfo(pageInfo);
             })
             .catch(() => {
@@ -95,7 +98,6 @@ export function useCampaignList(onShowToast, auth) {
         campaigns,
         currentPage,
         setCurrentPage,
-        totalPages,
         loading,
         pageInfo,
         handleLikeToggle,
