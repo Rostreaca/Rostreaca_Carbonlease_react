@@ -25,7 +25,7 @@ const ActivityBoardUpdateForm = () => {
   const [originImg, setOriginImg] = useState(""); // 기존 이미지 URL
   const [category, setCategory] = useState("");
 
-  useEffect(() => {
+  useEffect(() => { 
     async function fetchData() {
       try {
         const res = await fetch(`http://localhost/activityBoards/updateForm/${id}`);
@@ -33,7 +33,7 @@ const ActivityBoardUpdateForm = () => {
 
         setTitle(data.title);
         setContent(data.content);
-        //setAddress(data.address);
+        setAddress(data.address);
         setLat(data.lat);
         setLng(data.lng);
         setRegionNo(data.regionNo);
