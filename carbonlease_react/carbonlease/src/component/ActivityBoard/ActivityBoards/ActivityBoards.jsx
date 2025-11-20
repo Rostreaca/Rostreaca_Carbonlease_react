@@ -13,10 +13,9 @@ const ActivityBoards = () => {
 
     const navigate = useNavigate();
 
-    const [boards, setBoards] = useState([]);
-    const [page, setPage] = useState(0);  // backend는 0-based
+    const [currentPage, setCurrentPage] = useState(1);
+    const [activityBoards, setActivityBoards] = useState([]);
 
-    // Pagination.jsx 요구 형식에 맞게 totalPage 추가
     const [pageInfo, setPageInfo] = useState({
         startPage: 1,
         endPage: 1,
@@ -25,46 +24,41 @@ const ActivityBoards = () => {
 
     const [filter, setFilter] = useState('title');
     const [keyword, setKeyword] = useState('');
-
-    const token = localStorage.getItem("accessToken");
-
-    const fetchBoards = async () => {
-        try {
-            const res = await axios.get(
-                `http://localhost:80/activityBoards?page=${page}&filter=${filter}&keyword=${keyword}`,
-                { headers: { Authorization: token ? `Bearer ${token}` : undefined } }
-            );
-
-            setBoards(res.data.list);
-
-            // Pagination 전용 totalPage 세팅 (maxPage를 totalPage로 매핑)
-            setPageInfo({
-                startPage: res.data.pageInfo.startPage,
-                endPage: res.data.pageInfo.endPage,
-                totalPage: res.data.pageInfo.maxPage
-            });
-
-        } catch (err) {
-            console.error("게시글 조회 실패:", err);
-        }
-    };
-
+    
+    
     useEffect(() => {
-        fetchBoards();
-    }, [page, filter, keyword]);
+        axios
+        .get(`http://localhost:80/activityBoards?pageNo=${currentPage}&filter=${filter}&keyword=${keyword}`)
+        .then((response) => {
+            console.log("response.data: ", response.data);
 
-    // Pagination.jsx에서 사용하는 setter
-    const handleSetCurrentPage = (newPage) => {
-        // newPage는 1-based → backend는 0-based
-        setPage(newPage - 1);
-    };
+            const list = response.data.activityListDTO;
+
+            console.log("받은 list:", list);
+            console.log(response);
+            setPageInfo({
+                startPage: response.data.pageInfo.startPage,
+                endPage: response.data.pageInfo.endPage,
+                totalPage: response.data.pageInfo.maxPage
+            })
+
+            if(Array.isArray(list)){
+                setActivityBoards(list);
+            } else {
+                console.error("list가 배열이 아니래", list);
+                setActivityBoards([]);
+            }
+        })
+        .catch((err) => {
+            console.error(err);
+        });
+    },[currentPage ,filter, keyword]);
+    
 
     const goWritePage = () => navigate("/activityBoards/insertForm");
-
     const handleSelectFilter = (value) => setFilter(value);
-
     const handleSearch = (value) => {
-        setPage(0);
+        setCurrentPage(1);
         setKeyword(value);
     };
 
@@ -82,8 +76,8 @@ const ActivityBoards = () => {
 
                 {/* 게시글 리스트 */}
                 <div style={{ width:"1200px", margin:"0 auto", padding:"40px 0" }}>
-                    {boards.length > 0 ? (
-                        boards.map((item, idx) => (
+                    {Array.isArray(activityBoards) && activityBoards.length > 0 ? (
+                        activityBoards.map((item, idx) => (
                             <BoardItem
                                 key={idx}
                                 item={item}
@@ -111,8 +105,8 @@ const ActivityBoards = () => {
                 {/* Pagination */}
                 <div style={{ display: "flex", justifyContent: "center", marginTop:"20px" }}>
                     <Pagination
-                        currentPage={page + 1}        // 1-based
-                        setCurrentPage={handleSetCurrentPage}
+                        currentPage={currentPage}        // 1-based
+                        setCurrentPage={setCurrentPage}
                         pageInfo={pageInfo}           // totalPage 포함되어 있음
                     />
                 </div>
