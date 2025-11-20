@@ -8,6 +8,9 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import Alert from '../../Common/Alert/Alert';
 import { useNavigate } from 'react-router-dom';
+import CheckIdDuplicate from '../CheckDuplicate/CheckIdDuplicate';
+import CheckNickNameDuplicate from '../CheckDuplicate/CheckNickNameDuplicate';
+import CheckEmailDuplicate from '../CheckDuplicate/CheckEmailDuplicate';
 
 
 
@@ -15,13 +18,6 @@ const EnrollForm = () => {
 
 
     const navi = useNavigate();
-
-
-
-    const [checkAlertTitle, setCheckAlertTitle] = useState("id");
-    const [showCheckAlert, setShowCheckAlert] = useState(false);
-    const [checkAlertVariant, setCheckAlertVariant] = useState('info');
-    const [checkAlertMsg, setCheckAlertMsg] = useState("");
 
     const [showSignUpAlert, setShowsignUpAlert] = useState(false);
     const [signUpAlertVariant, setSignUpAlertVariant] = useState('info');
@@ -105,6 +101,7 @@ const EnrollForm = () => {
         setEmailMsg("");
     }, [email])
 
+
     const findAddress = () => {
 
         new daum.Postcode({
@@ -115,69 +112,6 @@ const EnrollForm = () => {
         }).open();
     }
 
-    const handleCheckId = () => {
-
-        setCheckAlertTitle('id');
-
-        axios.post("http://localhost/members/checkId",
-            {
-                memberId: memberId
-            }).then(result => {
-                setCheckAlertVariant('info');
-                setCheckAlertMsg("중복된 아이디가 없습니다.");
-                setShowCheckAlert(true);
-                setCheckId(true);
-                setIdMsg("사용 가능한 아이디입니다.");
-            }).catch(error => {
-                setCheckAlertVariant('warning');
-                setCheckAlertMsg(error.response.data["error-message"]);
-                setShowCheckAlert(true);
-            })
-
-            return checkId;
-    }
-
-    const handleCheckNickName = () => {
-
-        setCheckAlertTitle('nickName');
-
-        axios.post("http://localhost/members/checkNickName",
-            {
-                nickName: nickName
-            }).then(result => {
-                setCheckAlertVariant('info');
-                setCheckAlertMsg("중복된 닉네임이 없습니다.");
-                setShowCheckAlert(true);
-                setCheckNickName(true);
-                setNickNameMsg("사용 가능한 닉네임입니다.")
-            }).catch(error => {
-                setCheckAlertVariant('warning');
-                setCheckAlertMsg(error.response.data["error-message"]);
-                setShowCheckAlert(true);
-            })
-
-    }
-
-    const handleCheckEmail = () => {
-
-        setCheckAlertTitle('email');
-
-        axios.post("http://localhost/members/checkEmail",
-            {
-                email: email
-            }).then(result => {
-                setCheckAlertVariant('info');
-                setCheckAlertMsg("중복된 이메일이 없습니다.");
-                setShowCheckAlert(true);
-                setCheckEmail(true);
-                setEmailMsg("사용 가능한 이메일입니다.");
-            }).catch(error => {
-                setCheckAlertVariant('warning');
-                setCheckAlertMsg(error.response.data["error-message"]);
-                setShowCheckAlert(true);
-            })
-
-    }
 
     const handleSignUp = (e) => {
         e.preventDefault();
@@ -222,7 +156,7 @@ const EnrollForm = () => {
                                 onChange={(e) => setMemberId(e.target.value)}
                                 required
                             />
-                            <Button type='button' onClick={handleCheckId}>중복확인</Button>
+                            <CheckIdDuplicate memberId = {memberId} checkId ={checkId} setCheckId = {setCheckId} setIdMsg = {setIdMsg}/>
                             <FormLabel className={checkId ? 'regValidMsg' : 'regInvalidMsg'}>{idMsg}</FormLabel>
                         </FieldGroup>
                         <FieldGroup>
@@ -243,7 +177,7 @@ const EnrollForm = () => {
                                 onChange={(e) => setNickName(e.target.value)}
                                 required
                             />
-                            <Button type='button' onClick={handleCheckNickName}>중복확인</Button>
+                            <CheckNickNameDuplicate nickName = {nickName} checkNickName = {checkNickName} setCheckNickName = {setCheckNickName} setNickNameMsg = {setNickNameMsg}/>
                             <FormLabel className={checkNickName ? 'regValidMsg' : 'regInvalidMsg'}>{nickNameMsg}</FormLabel>
                         </FieldGroup>
                         <FieldGroup>
@@ -254,7 +188,7 @@ const EnrollForm = () => {
                                 onChange={(e) => setEmail(e.target.value)}
                                 required
                             />
-                            <Button type='button' onClick={handleCheckEmail}>중복확인</Button>
+                            <CheckEmailDuplicate email = {email} checkEmail = {checkEmail} setCheckEmail = {setCheckEmail} setEmailMsg = {setEmailMsg}/>
                             <FormLabel className={checkEmail ? 'regValidMsg' : 'regInvalidMsg'}>{emailMsg}</FormLabel>
                         </FieldGroup>
                         <FieldGroup>
@@ -290,13 +224,7 @@ const EnrollForm = () => {
                     variant={signUpAlertVariant}
                 />
 
-                <Alert
-                    show={showCheckAlert}
-                    onClose={() => { setShowCheckAlert(false) }}
-                    title={checkAlertTitle === 'id' ? '아이디 중복 확인' : checkAlertTitle === 'nickName' ? '닉네임 중복 확인' : '이메일 중복 확인'}
-                    message={checkAlertMsg}
-                    variant={checkAlertVariant}
-                />
+
             </PageContent>
         </>
     )
