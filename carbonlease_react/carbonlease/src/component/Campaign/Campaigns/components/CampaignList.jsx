@@ -9,7 +9,7 @@ import { useCampaignList } from '../useCampaignList';
 
 // 캠페인 리스트 컴포넌트
 const CampaignList = ({ onShowToast }) => {
-    
+
         const navigate = useNavigate();
 
         // 인증 정보 가져오기
@@ -25,6 +25,10 @@ const CampaignList = ({ onShowToast }) => {
             handleLikeToggle,
         } = useCampaignList(onShowToast, auth);
 
+        console.log('currentPage:', currentPage);
+        console.log('pageInfo:', pageInfo);
+        console.log('campaigns:', campaigns);
+        
         // 캠페인 카드 클릭 핸들러
         const handleCardClick = (campaign) => {
             navigate(`/campaigns/detail/${campaign.campaignNo}`, { state: campaign });
