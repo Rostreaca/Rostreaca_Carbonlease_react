@@ -47,8 +47,8 @@ export const AuthProvider = ({ children }) => {
             setAuth({
                 memberId,
                 nickName,
-                newAccessToken,
-                newRefreshToken,
+                accessToken : newAccessToken,
+                refreshToken : newRefreshToken,
                 email, 
                 addressLine1, 
                 addressLine2,

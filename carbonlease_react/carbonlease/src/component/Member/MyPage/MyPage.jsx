@@ -18,8 +18,9 @@ const MyPage = () => {
     const navi = useNavigate();
     
     const { auth, logout } = useContext(AuthContext);
+    const [memberPwd , setMemberPwd] = useState("");
+
     const [showConfirm, setShowConfirm] = useState(false);
-    const [confirmVariant, setConfirmVariant] = useState('danger');
 
     const [toast, setToast] = useState({
         message: '',
@@ -27,13 +28,12 @@ const MyPage = () => {
         variant: 'success'
     });
 
-    const showToastMessage = (message, variant = 'success') => {
+
+
+    const showToastMessage = (message, variant) => {
         setToast({ message, isVisible: true, variant });
     };
 
-    const handleConfirm = () => {
-        showToastMessage(message, 'success');
-    };
 
     const boardColumns = [
         {
@@ -95,17 +95,26 @@ const MyPage = () => {
         }
     ];
 
-    const signOut = (password) => {
-        
-        axios.delete("http://localhost/members",{
-            memberPwd : password
+    const signOut = () => {
+        console.log('aa');
+
+        axios.delete("http://localhost/members", {
+            headers : {
+                    Authorization : `Bearer ${auth.accessToken}`,
+                },
+                data : {
+                  memberPwd,  
+                },
         }).then(result => {
             console.log(result);
+            showToastMessage('성공적으로 회원탈퇴되었습니다.', 'success');
+            setTimeout(() => {
+                logout();
+                navi('/');
+            },1000);
         }).catch(err =>{
-            console.error(err);
+            showToastMessage(err.response.data["error-message"], 'error');
         })
-        //logout();
-
 
     }
 
@@ -193,12 +202,15 @@ const MyPage = () => {
                 <ConfirmDialog
                 show={showConfirm}
                 onClose={() => setShowConfirm(false)}
-                onConfirm={handleConfirm}
-                title={confirmVariant === 'info' ? '확인' : confirmVariant === 'warning' ? '경고' : '삭제 확인'}
+                onConfirm={signOut}
+                title='탈퇴 확인'
                 message= '회원을 탈퇴하시려면 비밀번호를 입력해 주십시오'
-                confirmText={confirmVariant === 'danger' ? '삭제' : '확인'}
+                content={
+                    <input type="password" onChange={(e) => setMemberPwd(e.target.value)}></input>
+                }
+                confirmText= '탈퇴'
                 cancelText="취소"
-                variant={confirmVariant}
+                variant= 'danger'
                 />
 
             <Toast
