@@ -1,73 +1,127 @@
-import { useNavigate, useParams } from "react-router-dom";
-import { useState } from "react";
 import PageTitle from "../../Common/Layout/PageTitle/PageTitle.jsx";
 import PageContent from "../../Common/PageContent/PageContent.jsx";
-
-import BoardContent from "./components/BoardContent.jsx";
+import { Wrapper, ActivityInfo, ProfilAndLike, ButtonSection,CommentSection, LikeButton } from "./ActivityBoardDetail.styles.js";
+import CommentInsert from "./components/CommentInsert.jsx";
+import Comments from "./components/Comments.jsx";
 import ImageSection from "./components/ImageSection.jsx";
-import PostHeader from "./components/PostHeader.jsx";
-import PostTitle from "./components/Title.jsx";
-import ThermometerGauge from "./components/ThermometerGauge.jsx";
-import ReplyPagination from "../../Common/UI/ReplyPagination.jsx";
-import ProfileCard from "./components/ProfileCard.jsx";
+import InfoSection from "./components/InfoSection.jsx";
 import MapSection from "./components/MapSection.jsx";
-import ReplyEditForm from "./components/ReplyEditForm.jsx";
-import InputButton from "./components/InputButton.jsx";
-import OutlineSuccessButton from "../../Common/UI/Button/OutlineWriterButton.jsx";
-import OutlineDangerButton from "../../Common/UI/Button/OutlineDangerButton.jsx";
-import {
-  Wrapper, Section, ImageCard, ContentCard, MapCard,
-  ButtonArea, ButtonGroup, ReplyWriteArea,
-  ProfileAndLike, LikeCard
-} from "./ActivityBoardDetail.styles.js";
-import axios from "axios";
+import ProfilCard from "./components/ProfilCard.jsx";
+import ContentSection from "./components/ContentSection.jsx";
+import CommentsPagination from "./components/CommentsPagination.jsx";
+import { useNavigate, useParams } from "react-router-dom";
+import { useContext, useEffect, useState } from "react";
+import { fetchActivityDetail } from "../../../api/activity/activityAPI.js";
+import { AuthContext } from "../../Context/AuthContext.jsx";
+import Toast from "../../Common/Toast/Toast.jsx";
+import activityStore from "../../../store/activityStore.js";
 
-const ActivityBoardDetail = () => {
-  const navigate = useNavigate();
+
+const ActivityBoardDetail = ({onShowToast}) => {
+
   const { id } = useParams();
-  axios.get(`/activityBoards/${id}`)
-  const [post, setPost] = useState({
-    id: 1,
-    title: "대중교통 이용하기",
-    writer: "아이언군",
-    createdDate: "2025.01.11",
-    views: 123,
-    likes: 12,
-    isLiked: false,
-    content: `출퇴근할 때 버스를 이용했습니다.\n도보 + 대중교통으로 이동하면서 탄소 절감을 실천했어요.\n앞으로도 꾸준히 대중교통 이용을 실천할 예정! ✨`,
-    images: [
-      "https://img.khan.co.kr/news/r/700xX/2024/10/28/news-p.v1.20240501.1bdd2e3a6ae647d48bfcaf6c9d216739_P1.webp"
-    ],
-    profile: {
-      nickname: "아이언군",
-      totalCarbonSave: 19.21,
-      count: 999,
-      grade: "leaf",
-    },
-    map: { lat: 37.566826, lng: 126.9786567 }
-  });
+  const navigate = useNavigate();
+  const { auth } = useContext(AuthContext);
 
-  const [comments] = useState([
-    { id:1, writer:"탄소아끼미", date:"2025.02.01", content:"대중교통 이용 멋져요! 👍" },
-    { id:2, writer:"지구지킴이", date:"2025.02.02", content:"저도 도전해봐야겠어요 🌍" }
-  ]);
+  const [post, setPost] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-  // 공감 토글
-  const handleLikeToggle = () => {
-    setPost(prev => ({
-      ...prev,
-      isLiked: !prev.isLiked,
-      likes: prev.isLiked ? prev.likes - 1 : prev.likes + 1
-    }));
+  const [toastMessage, setToastMessage] = useState('');
+  const [showToast, setShowToast] = useState(false);
+  const [toastVariant, setToastVariant] = useState('success');
+
+  // 토스트 메시지 표시
+    const handleShowToast = (message, variant = 'success') => {
+        setToastMessage(message);
+        setToastVariant(variant);
+        setShowToast(true);
+    };
+
+    // 토스트 메시지 닫기
+    const handleCloseToast = () => {
+        setShowToast(false);
+    };
+
+  useEffect(() => {
+    loadDetail();
+  }, []);
+
+  const loadDetail = async () => {
+    try {
+      const res = await fetchActivityDetail(id, auth.accessToken);
+      const data = res.data;
+
+      const localLike = activityStore.getLike(id);
+
+      setPost({
+        ...data,
+        isLiked: localLike ?? data.isLiked
+      });
+
+    } catch (err) {
+      console.error("Detail조회 실패", err);
+    } finally {
+      setLoading(false);
+    }
   };
+
+
+  console.log(post);
+
+  if (loading) return <div>로딩중...</div>
+  if (!post) return <div>게시글을 찾을수 없습니다.</div>
 
   const handleUpdate = () => {
-    navigate(`/activityBoards/updateForm/${post.id}`);
-  };
-  const goList = () => {
-    navigate("/activityBoards");
+    navigate(`activityBoards/update/${id}`);
   };
 
+  const handleDelete = async () => {
+    if (!window.confirm("정말 삭제하시겠습니까?")) return;
+
+    try {
+      await deleteActivityBoard(id);
+      alert("삭제되었습니다.");
+      navigate("/activityBoards");
+    } catch(err) {
+      console.error("삭제 실패", err);
+      alert("삭제 중 오류가 발생했습니다.");
+    }
+  };
+
+  const handleLikeToggle = async (e) => {
+    e.stopPropagation();
+
+    if (!auth.isAuthenticated) {
+      handleShowToast("로그인이 필요합니다.", "error");
+      return;
+    }
+
+    try {
+      await toggleLike(post.activityNo);
+
+      const newLikeStatus = !post.isLiked;
+
+      activityStore.setLike(post.activityNo, newLikeStatus);
+
+      setPost(prev => ({
+        ...prev,
+        isLiked: newLikeStatus,
+        likeCount: newLikeStatus ? prev.likeCount + 1 : prev.likeCount - 1
+      }));
+
+      handleShowToast(
+        newLikeStatus
+          ? "이 활동에 공감해주셨어요!"
+          : "공감을 취소했어요."
+      );
+
+    } catch (error) {
+      handleShowToast("좋아요 처리에 실패했습니다.", "error");
+      console.error(error);
+    }
+  };
+
+  
 
   return (
     <>
@@ -82,96 +136,70 @@ const ActivityBoardDetail = () => {
 
       <PageContent>
         <Wrapper>
-
-          <Section style={{ textAlign: "center", borderBottom: "none" }}>
-            <PostTitle title={post.title} />
-            <PostHeader data={{
-              nickname: post.writer,
-              date: post.createdDate,
-              views: post.views,
-              likes: post.likes
-            }} />
-          </Section>
-
-          <Section>
-            <ImageCard>
-              <ImageSection images={post.images} />
-            </ImageCard>
-          </Section>
-
-          <Section>
-            <ContentCard>
-              <BoardContent content={post.content} />
-            </ContentCard>
-          </Section>
-
-          <Section>
-            <MapCard>
-              <MapSection lat={post.map.lat} lng={post.map.lng} />
-            </MapCard>
-          </Section>
-
-          {/* 프로필 + 공감 */}
-          <ProfileAndLike>
-            <ProfileCard
-              nickname={post.profile.nickname}
-              count={post.profile.count}
-              carbon={post.profile.totalCarbonSave}
-              grade={post.profile.grade}
+          {/* 제목 + 등록정보 + 게시판 정보 */}
+          <ActivityInfo>
+            <InfoSection 
+              title={post.activityTitle}
+              writer={post.nickName}
+              createDate={post.enrollDate}
+              views={post.viewCount}
+              likes={post.likeCount}
             />
-
-            <ThermometerGauge
-              value={post.profile.totalCarbonSave}
-              max={30}
-            />
-
-            <LikeCard $liked={post.isLiked} onClick={handleLikeToggle}>
-              <i className={post.isLiked ? 'bi bi-heart-fill' : 'bi bi-heart'} />
-              {post.isLiked ? '공감 취소' : '공감하기'}
-            </LikeCard>
-          </ProfileAndLike>
-
-
-          {/* 버튼 */}
-          <ButtonArea>
-            <OutlineSuccessButton onClick={goList}>목록으로</OutlineSuccessButton>
-            <ButtonGroup>
-              <OutlineSuccessButton onClick={handleUpdate}>수정</OutlineSuccessButton>
-              <OutlineDangerButton>삭제</OutlineDangerButton>
-            </ButtonGroup>
-          </ButtonArea>
-
-          {/* 댓글 리스트 */}
-          <Section>
-            <div style={{ width:"100%" }}>
-              {comments.length === 0 ? (
-                <div style={{ padding:"20px", textAlign:"center", color:"#777" }}>
-                  아직 댓글이 없습니다. 첫 댓글을 남겨보세요! 💬
-                </div>
-              ) : (
-                comments.map((reply) => (
-                  <div key={reply.id} style={{
-                    padding:"14px 10px",
-                    borderBottom:"1px solid #eee",
-                    fontSize:"14px"
-                  }}>
-                    <b>{reply.writer}</b> · {reply.date}
-                    <div style={{ marginTop:"6px" }}>{reply.content}</div>
-                  </div>
-                ))
-              )}
-            </div>
-          </Section>
+          </ActivityInfo>
           
-          <ReplyWriteArea>
-            <ReplyEditForm style={{ flex: 1 }} />
-            <InputButton />
-          </ReplyWriteArea>
+          {/* 이미지 */}
+          <ImageSection images={post.images} />
+          
+          {/* 게시글 내용 */}
+          
+          <ContentSection content={post.activityContent} />
+          
+          {/* 지도 영역 */}
+          <MapSection lat={post.lat} lng={post.lng}/>
+          
+          {/* 프로필 카드 + 좋아요 버튼 */}
+          <ProfilAndLike>
+            <ProfilCard 
+              nickName={post.nickName}
+              count={post.certificationCount}
+              carbon={post.carbonSave}
+            />
+            {auth.isAuthenticated && (
+              <LikeButton
+                $liked={post.isLiked}
+                onClick={handleLikeToggle}
+                className="detail-like-btn"
+              >
+                <i className={post.isLiked ? "bi bi-heart-fill" : "bi bi-heart"}></i>
+                좋아요
+              </LikeButton>
+            )}
+          </ProfilAndLike>
 
-          <ReplyPagination currentPage={1} totalPages={5} />
+          {/* 수정/삭제 버튼 */}
+          <ButtonSection>
+            <button className="update-btn" onClick={handleUpdate}>수정</button>
+            <button className="delete-btn" onClick={handleDelete}>삭제</button>
+          </ButtonSection>
 
+          {/* 댓글 영역 */}
+          <CommentSection>
+            <Comments />
+            <CommentInsert />
+          </CommentSection>
+
+          {/* 댓글 페이징 */}
+          <CommentsPagination />
+
+          <button onClick={() => navigate("/activityBoards")}>목록으로</button>
         </Wrapper>
       </PageContent>
+      <Toast
+          message={toastMessage}
+          isVisible={showToast}
+          onClose={handleCloseToast}
+          variant={toastVariant}
+      />
     </>
   );
 };
