@@ -40,3 +40,30 @@ export const fetchActivityBoards = (pageNo, filter, keyword) => {
     }
   });
 };
+
+export const fetchActivityDetail = (activityNo, accessToken, memberNo) => {
+  return activityAPI.get(`/${activityNo}`, {
+    params: { memberNo: memberNo ?? 0 },
+    headers: accessToken
+      ? { Authorization: `Bearer ${accessToken}` }
+      : {}
+  });
+};
+
+export const toggleLike = (activityNo) => {
+    const accessToken = localStorage.getItem('accessToken');
+    if (!accessToken) {
+        return Promise.reject(new Error('No token found'));
+    }
+    return activityAPI.post(`/${activityNo}/like`, {}, {
+        headers: {
+            Authorization: `Bearer ${accessToken}`
+        }
+    });
+};
+
+
+export const deleteActivityBoard = (activityNo) => {
+  return activityAPI.delete(`/${activityNo}`);
+};
+
