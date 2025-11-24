@@ -79,7 +79,7 @@ export const update = (campaignNo, campaign, files) => {
     return adminCampaignApi.put(`/update/${campaignNo}`, formData);
 }
 
-// 캠페인 상세 조회
+// // 캠페인 상세 조회
 export const findByNo = (id) => {
     return adminCampaignApi.get(`/detail/${id}`);
 };

@@ -12,10 +12,11 @@ const useCampaignList = (onShowToast, auth) => {
         totalPage: 1
     });
 
-    useEffect (()=>{
-        setLoading(false);
+    // mount 시 무조건 1회 실행 (최신 데이터 보장)
+    useEffect(() => {
         getCampaigns(currentPage);
-    }, [currentPage]);
+        // eslint-disable-next-line
+    }, []);
 
     // 캠페인 목록 불러오기
     const getCampaigns = (page) => {

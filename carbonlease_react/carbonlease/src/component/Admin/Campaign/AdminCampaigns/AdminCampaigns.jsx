@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import ConfirmDialog from '../../../Common/ConfirmDialog/ConfirmDialog';
 import Pagination from '../../../Common/Pagination/Pagination';
@@ -31,7 +31,11 @@ const AdminCampaigns = () => {
     console.log('campaigns:', campaigns);
     console.log('캠페인 총 개수(전체):', pageInfo.listCount);
     console.log('캠페인 총 개수(현재 페이지):', campaigns.length);
-        
+    
+    useEffect(() => {
+        setCurrentPage(1); // mount 시 무조건 1페이지로 리셋
+        // eslint-disable-next-line
+    }, []);
 
     const handleEdit = (campaign) => {
         navigate(`/admin/campaigns/update/${campaign.campaignNo}`, { state: campaign });
