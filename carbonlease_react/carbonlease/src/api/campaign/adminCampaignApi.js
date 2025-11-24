@@ -1,4 +1,3 @@
-
 import axios from 'axios';
 
 // Spring Boot API Base URL
@@ -46,7 +45,9 @@ export const save = (campaign, files) => {
     // 파일 추가
     if (files && files.length > 0) {
         formData.append("thumbnail", files[0]);
-        formData.append("detailImage", files[1]);
+        if (files[1]) {
+            formData.append("detailImage", files[1]);
+        }
     }
 
     return adminCampaignApi.post('/insert', formData);
@@ -59,5 +60,26 @@ export const getCategories = () => {
 };
 
 
+// 캠페인 게시글 수정
+export const update = (campaignNo, campaign, files) => {
+    const formData = new FormData();    
 
+    Object.entries(campaign).forEach(([key, value]) => {
+        formData.append(key, value);
+    });
 
+    // 파일 추가
+    if (files && files.length > 0) {
+        formData.append("thumbnail", files[0]);
+        if (files[1]) {
+            formData.append("detailImage", files[1]);
+        }
+    }
+
+    return adminCampaignApi.put(`/update/${campaignNo}`, formData);
+}
+
+// 캠페인 상세 조회
+export const findByNo = (id) => {
+    return adminCampaignApi.get(`/detail/${id}`);
+};

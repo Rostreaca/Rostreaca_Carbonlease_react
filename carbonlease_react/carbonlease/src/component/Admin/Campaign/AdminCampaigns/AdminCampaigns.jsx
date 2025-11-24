@@ -33,8 +33,8 @@ const AdminCampaigns = () => {
     console.log('캠페인 총 개수(현재 페이지):', campaigns.length);
         
 
-    const handleEdit = (id) => {
-        navigate(`/admin/campaigns/update/${id}`);
+    const handleEdit = (campaign) => {
+        navigate(`/admin/campaigns/update/${campaign.campaignNo}`, { state: campaign });
     };
 
     const handleDelete = (id) => {
