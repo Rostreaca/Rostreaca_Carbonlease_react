@@ -12,9 +12,10 @@ const useAdminCampaign = (onShowToast) => {
         totalPage: 1
     });
 
+    // 페이지 변경 시 항상 실행
     useEffect(() => {
-        setLoading(false);
         getCampaigns(currentPage);
+        // eslint-disable-next-line
     }, [currentPage]);
 
     // 캠페인 목록 불러오기

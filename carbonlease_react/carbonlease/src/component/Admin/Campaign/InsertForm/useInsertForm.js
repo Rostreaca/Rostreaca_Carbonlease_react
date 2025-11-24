@@ -28,16 +28,16 @@ const useInsertForm = (onShowToast, auth) => {
 
     // 카테고리 옵션 불러오기
 	useEffect(() => {
-    getCategories()
-        .then(ressult => {
-			 console.log('카테고리 API 응답:', ressult.data);
-            const options = ressult.data.map(c => ({ value: c.categoryNo, label: c.categoryName }));
-            setCategoryOptions(options);
-        })
-        .catch(() => {
-            setCategoryOptions([]);
-        });
-}, []);
+		getCategories()
+			.then((result) => {
+				console.log('카테고리 API 응답:', result.data);
+				const options = result.data.map(c => ({ value: c.categoryNo, label: c.categoryName }));
+				setCategoryOptions(options);
+			})
+			.catch(() => {
+				setCategoryOptions([]);
+			});
+	}, []);
 
     //  폼 필드 변경 처리
 	const handleChange = (e) => {
@@ -131,8 +131,8 @@ const useInsertForm = (onShowToast, auth) => {
 
         // 캠페인 등록 API 호출
 		save(campaign, files, accessToken)
-			.then((ressult) => {
-				if (ressult && ressult.status === 201) {
+			.then((result) => {
+				if (result && result.status === 201) {
 					onShowToast && onShowToast('캠페인 등록이 완료되었습니다!', 'success');
 					navigate('/admin/campaigns');
 				} else {
