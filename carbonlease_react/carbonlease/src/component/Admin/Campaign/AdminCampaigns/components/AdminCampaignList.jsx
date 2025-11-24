@@ -45,9 +45,9 @@ const AdminCampaignList = ({ campaigns, onEdit, onDelete }) => {
         {
             header: '관리',
             field: 'campaignNo',
-            render: (value) => (
+            render: (value, row) => (
                 <ButtonGroup>
-                    <EditButton onClick={() => onEdit(value)}>수정</EditButton>
+                    <EditButton onClick={() => onEdit(row)}>수정</EditButton>
                     <DeleteButton onClick={() => onDelete(value)}>삭제</DeleteButton>
                 </ButtonGroup>
             )
@@ -58,7 +58,7 @@ const AdminCampaignList = ({ campaigns, onEdit, onDelete }) => {
     return (
 
 		<DataTable 
-			title="공지사항 목록"
+			title="캠페인 목록"
 			columns={columns}
 			data={campaigns}
 		/>

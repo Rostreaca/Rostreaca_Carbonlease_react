@@ -1,5 +1,15 @@
+// 파일 경로를 절대 URL로 변환하는 유틸 함수 (이 파일에서만 사용)
+function getFullImageUrl(path) {
+    if (!path) return '';
+    if (/^https?:\/\//.test(path)) return path;
+    const baseUrl = import.meta.env.VITE_API_BASE_URL || '';
+    if (baseUrl && baseUrl.endsWith('/') && path.startsWith('/')) {
+        return baseUrl + path.slice(1);
+    }
+    return baseUrl ? baseUrl + path : path;
+}
 import { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import {
     CancelButton,
     FormButtonGroup,
@@ -9,12 +19,15 @@ import {
     FormContainer,
     PageHeader,
     SubmitButton
-} from '../../Common/DataTable/DataTable.styled';
-import FormField from '../../Common/Form/FormField';
+} from '../../../Common/DataTable/DataTable.styled';
+import FormField from '../../../Common/Form/FormField';
+import { getCategories } from '../../../../api/campaign/adminCampaignApi';
 
 const UpdateForm = () => {
     const navigate = useNavigate();
     const { id } = useParams();
+    const location = useLocation();
+    const campaign = location.state;
     const [formData, setFormData] = useState({
         campaignTitle: '',
         categoryNo: '',
@@ -30,33 +43,57 @@ const UpdateForm = () => {
         detailImage: ''
     });
 
-    const [errors, setErrors] = useState({});
 
-    const categoryOptions = [
-        { value: '환경', label: '환경' },
-        { value: '기술', label: '기술' },
-        { value: '사회', label: '사회' },
-        { value: '기타', label: '기타' }
-    ];
+    const [errors, setErrors] = useState({});
+    const [categoryOptions, setCategoryOptions] = useState([]);
 
     useEffect(() => {
-        // TODO: API 호출로 기존 데이터 가져오기
-        console.log('캠페인 ID:', id);
-        
-        // 임시 더미 데이터
-        const dummyData = {
-            campaignTitle: '친환경 캠페인 1',
-            categoryNo: '환경',
-            campaignContent: '친환경 캠페인 내용입니다.',
-            startDate: '2024-01-15',
-            endDate: '2024-12-31'
-        };
-        
-        setFormData(prev => ({
-            ...prev,
-            ...dummyData
-        }));
-    }, [id]);
+
+        // 카테고리 목록 불러오기
+        getCategories()
+            .then((result) => {
+                if (result && Array.isArray(result.data)) {
+                    setCategoryOptions(
+                        result.data.map(c => ({
+                            value: String(c.categoryNo),
+                            label: c.categoryName
+                        }))
+                    );
+                }
+            });
+
+        if (campaign) {
+            let patched = { ...campaign };
+
+            // categoryNo를 string으로 변환 (객체/값 모두 대응)
+            patched.categoryNo = String(
+                campaign.category && campaign.category.categoryNo !== undefined
+                    ? campaign.category.categoryNo
+                    : campaign.categoryNo ?? ''
+            );
+
+            // 첨부파일(썸네일/상세) 분리 및 null-safe 처리
+            if (Array.isArray(campaign.attachments)) {
+                console.log('attachments:', campaign.attachments);
+                const thumb = campaign.attachments.find(a => a && a.fileLevel === 0);
+                const detail = campaign.attachments.find(a => a && a.fileLevel === 1);
+                console.log('썸네일 filePath:', thumb ? thumb.filePath : '없음');
+                console.log('상세 filePath:', detail ? detail.filePath : '없음');
+                patched.thumbnailUrl = thumb ? getFullImageUrl(thumb.filePath) : '';
+                patched.detailImageUrl = detail ? getFullImageUrl(detail.filePath) : '';
+            }
+
+            setFormData(prev => ({
+                ...prev,
+                ...patched
+            }));
+
+            setFileNames({
+                thumbnail: patched.thumbnailUrl ? patched.thumbnailUrl.split('/').pop() : '',
+                detailImage: patched.detailImageUrl ? patched.detailImageUrl.split('/').pop() : ''
+            });
+        }
+    }, [campaign]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -203,6 +240,7 @@ const UpdateForm = () => {
                             error={errors.thumbnailFile}
                             accept="image/*"
                             fileName={fileNames.thumbnail}
+                            imageUrl={formData.thumbnailUrl}
                         />
 
                         <FormField
@@ -213,6 +251,7 @@ const UpdateForm = () => {
                             error={errors.detailImageFile}
                             accept="image/*"
                             fileName={fileNames.detailImage}
+                            imageUrl={formData.detailImageUrl}
                         />
 
                         <FormField
