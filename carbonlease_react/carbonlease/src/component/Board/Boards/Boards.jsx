@@ -7,9 +7,7 @@ import BoardItems from './components/BoardItems';
 import { useNavigate } from 'react-router-dom';
 import OutlineWriterButton from '../../Common/UI/Button/OutlineWriterButton';
 import { ButtonGroup, Dropdown, DropdownButton } from 'react-bootstrap';
-
-// useEffect를 사용하여 컴포넌트가 마운트될 때 데이터를 가져오고 상태를 업데이트합니다.
-// useState를 사용하여 상태 변수를 선언합니다.
+import { BoardInsertForm } from '../../../api/board/boardAPI';
 
  const Boards = () => {
 
@@ -49,14 +47,11 @@ import { ButtonGroup, Dropdown, DropdownButton } from 'react-bootstrap';
                 })
             })
     }
-    const goWritePage = () => navigate("/activityBoards/insertForm");
-    // const handleSelectFilter = (value) => setFilter(value);
-    // const handleSearch = (value) => {
-    //     setCurrentPage(1);
-    //     setKeyword(value);
-    // };
 
-     const handleRowClick = () => {
+
+    const goWritePage = () => navigate("/boards/InsertForm");
+
+    const handleRowClick = () => {
         console.log("hi");
         navigate(`/boards/${row.boardNo}`)
     }
