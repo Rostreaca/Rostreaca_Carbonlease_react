@@ -26,7 +26,7 @@ const BoardDetail = () => {
     const [reply, setReply] = useState([]);
     const [regionNo, setRegionNo] = useState("");
     const [showAlert, setShowAlert] = useState(false);
-    const { auth } = useContext(AuthContext);
+    const {auth} = useContext(AuthContext);
 
     const handleUpdate = () => {
         navigate(`/boards/updateForm/${post.id}`);
@@ -69,8 +69,8 @@ const BoardDetail = () => {
     }, [id])
     
     const replyBt = () => {
-      //alert("댓글 등록!!");
-      console.log("login " ,auth);
+      // alert("댓글 등록!!");
+      console.log("login ", auth);
 
       if (!accessToken) {
         alert("로그인이 필요한 서비스입니다!");
@@ -90,12 +90,17 @@ const BoardDetail = () => {
       }
 
       const ReplyInsertVO = {
-         memberNo : 999999
-        ,boardNo : board.boardNo
-        ,replyContent : replyTextarea.current.value
+         memberNo : auth.memberNo,
+         nickname : auth.nickname,
+         boardNo : board.boardNo,
+         replyContent : replyTextarea.current.value,
       }
       await axios
-            .post(`http://localhost/boards/detail/replyInsert`, ReplyInsertVO)
+            .post(`http://localhost/boards/detail/replyInsert`, ReplyInsertVO, {
+              headers: {
+                Authorization : `Bearer ${accessToken}`,
+              }
+            })
             .then((result) => {
                 const response = result.data;
                 console.log("상세보기 데이터:", response);
