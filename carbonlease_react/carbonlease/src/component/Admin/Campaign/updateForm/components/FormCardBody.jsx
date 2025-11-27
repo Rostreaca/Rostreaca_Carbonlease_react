@@ -1,12 +1,18 @@
 import {
     CancelButton,
     FormButtonGroup,
+    FormCard,
+    FormCardBody,
+    FormCardHeader,
+    FormContainer,
+    PageHeader,
     SubmitButton
-} from '../../../Common/DataTable/DataTable.styled';
-import FormField from '../../../Common/Form/FormField';
-import useUpdateForm from './useUpdateForm';
+} from '../../../../Common/DataTable/DataTable.styled';
+import FormField from '../../../../Common/Form/FormField';
+import useUpdateForm from '../useUpdateForm';
 
-const FormCardBodyComponent = ({ onShowToast, campaign }) => {
+
+const FormCardBodyComponent = (onShowToast, auth) => {
     const {
         formData,
         fileNames,
@@ -16,7 +22,8 @@ const FormCardBodyComponent = ({ onShowToast, campaign }) => {
         handleFileChange,
         handleSubmit,
         handleCancel
-    } = useUpdateForm(onShowToast, campaign);
+    } = useUpdateForm({ onShowToast, auth });
+    
 
     return (
         <form onSubmit={handleSubmit}>

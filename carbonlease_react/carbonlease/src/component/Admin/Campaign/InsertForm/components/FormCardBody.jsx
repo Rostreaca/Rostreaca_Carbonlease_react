@@ -7,7 +7,7 @@ import FormField from '../../../../Common/Form/FormField';
 import useInsertForm from '../useInsertForm';
 
 // 캠페인 등록 폼 바디 컴포넌트
-const FormCardBodyComponent = ({ onShowToast, auth }) => {
+const FormCardBodyComponent = ({ onShowToast, auth }) => { // props를 객체 구조분해 할당으로 받기
     const {
         formData,
         fileNames,
@@ -17,7 +17,7 @@ const FormCardBodyComponent = ({ onShowToast, auth }) => {
         handleFileChange,
         handleSubmit,
         handleCancel
-    } = useInsertForm(onShowToast, auth);
+    } = useInsertForm(onShowToast, auth); // 기존 시그니처에 맞게 전달
 
     return (
         <form onSubmit={handleSubmit}>

@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getCategories, save } from '../../../../api/campaign/adminCampaignApi';
 
+// 어드민 캠페인 등록 폼 관리 커스텀 훅
 const useInsertForm = (onShowToast, auth) => {
 	const navigate = useNavigate();
 	const [errors, setErrors] = useState({});
@@ -26,11 +27,11 @@ const useInsertForm = (onShowToast, auth) => {
 		detailImage: ''
 	});
 
-    // 카테고리 옵션 불러오기
 	useEffect(() => {
+		// 카테고리 옵션 불러오기
 		getCategories()
 			.then((result) => {
-				console.log('카테고리 API 응답:', result.data);
+				//console.log('카테고리 API 응답:', result.data);
 				const options = result.data.map(c => ({ value: c.categoryNo, label: c.categoryName }));
 				setCategoryOptions(options);
 			})
@@ -126,14 +127,14 @@ const useInsertForm = (onShowToast, auth) => {
 			endDate: formData.endDate
 		};
 
+		// 실제 파일이 있을 때만 등록 api에 넘기고, 폼 유효성 검사에서 파일이 없으면 등록 못하게 막기
 		const files = [formData.thumbnailFile, formData.detailImageFile].filter(Boolean);
-		const accessToken = localStorage.getItem('accessToken');
 
         // 캠페인 등록 API 호출
-		save(campaign, files, accessToken)
+		save(campaign, files)
 			.then((result) => {
 				if (result && result.status === 201) {
-					onShowToast && onShowToast('캠페인 등록이 완료되었습니다!', 'success');
+					onShowToast && onShowToast('게시글 등록이 완료되었습니다!', 'success');
 					navigate('/admin/campaigns');
 				} else {
 					onShowToast && onShowToast('등록에 실패했습니다.', 'error');
