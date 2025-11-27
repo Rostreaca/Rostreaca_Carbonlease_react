@@ -32,7 +32,7 @@ export const findAll = (page) => {
 };
 
 // 캠페인 상세 조회
-export const findByNo = (id) => {
+export const findDetailByNo = (id) => {
     return campaignApi.get(`/detail/${id}`);
 };
 
