@@ -16,8 +16,8 @@ const Layout = () => {
         <LayoutWrap>
             <Header />
 
-            <PageWrapper showSidebar={showSidebar}>
-              <MainContent showSidebar={showSidebar}>
+            <PageWrapper $showSidebar={showSidebar}>
+              <MainContent $showSidebar={showSidebar}>
                 <Outlet />
               </MainContent>
 
