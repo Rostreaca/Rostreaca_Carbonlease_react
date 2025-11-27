@@ -16,12 +16,28 @@ import { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const NoticeInsertForm = () => {
-    const [title, setTitle] = useState("");
-    const [content, setContent] = useState("");
-    const [fix, setFix] = useState("");
-    const [file, setFile] = useState(null);
-    const { auth } = useContext(AuthContext);
+
+    const navigate = useNavigate();
+    const [errors, setErrors] = useState({});
     const navi = useNavigate();
+
+    // const [title, setTitle] = useState("");
+    // const [content, setContent] = useState("");
+    // const [fix, setFix] = useState("");
+    // const [file, setFile] = useState(null);
+    const { auth } = useContext(AuthContext);
+
+    // 폼 데이터 상태 관리
+    const [formData, setFormData] = useState({
+        title: '',
+        content: '',
+        files: [],
+        fix: '',
+    });
+
+    // 파일 이름 상태 관리
+    const [fileNames, setFileNames] = useState(null);
+
 
     // 1. 로그인 안되있으면 빠꾸
     useEffect(() => {
@@ -32,22 +48,73 @@ const NoticeInsertForm = () => {
         console.log(auth.accessToken)
     }, [auth.isAuthenticated]);
 
+    // form
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData(prev => ({
+            ...prev,
+            [name]: value
+        }));
+        
+        if (errors[name]) {
+            setErrors(prev => ({
+                ...prev,
+                [name]: ''
+            }));
+        }
+    };
+
+    // file form
+    const handleFileChange = (e) => {
+        const { files } = e.target;
+
+        if (files && files.length > 0) {
+            const fileList = Array.from(files);
+
+            setFormData(prev => ({
+                ...prev,
+                files: fileList
+            }));
+
+            setFileNames(fileList.map(f => f.name));
+
+            if (errors["files"]) {
+                setErrors(prev => ({
+                    ...prev,
+                    files: ''
+                }));
+            }
+
+            console.log(files)
+            console.log(formData)
+        }
+    };
+
     // 제출 handler
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        if (!title.trim() || !content.trim()) {
-            alert("제목과 내용은 필수입니다.");
-            return;
-        }
+        // validate()
+        // if (!title.trim() || !content.trim()) {
+        //     alert("제목과 내용은 필수입니다.");
+        //     return;
+        // }
 
-        const formData = new FormData();
-        formData.append("noticeTitle", title);
-        formData.append("noticeContent", content);
-        formData.append("fix", fix ? "Y" : "N"); 
-        formData.append("file", file)
+        // formData 생성하기
+        const notice = new FormData();
+        notice.append("noticeTitle", formData.title);
+        notice.append("noticeContent", formData.content);
+        notice.append("fix", formData.fix ? "Y" : "N"); 
 
-        axios.post("http://localhost/admin/notices/insert", formData, {
+        if (formData.files && formData.files.length > 0) {
+            formData.files.forEach(file => {
+                notice.append("files", file);
+        });}
+
+
+
+
+        axios.post("http://localhost/admin/notices/insert", notice, {
             headers: {
                 Authorization: `Bearer ${auth.accessToken}`,
                 "Content-Type": "multipart/form-data",
@@ -65,18 +132,24 @@ const NoticeInsertForm = () => {
         });
     };
 
-    const handleFileChange = (e) => {
-            const selectedFile = e.target.files[0];
-            console.log(selectedFile);
-            const maxSize = 1024 * 1024 * 10;
+    // const handleFileChange = (e) => {
+    //         const { name, selectedFile} = e.target;
+    //         console.log(selectedFile);
+    //         const maxSize = 1024 * 1024 * 10;
 
-            if (selectedFile && selectedFile.size > maxSize) {
-            alert("너무 용량이 커요 힘듭니다 서버가");
-            return;
-            }
+    //         if (selectedFile && selectedFile.size > maxSize) {
+    //         alert("너무 용량이 커요 힘듭니다 서버가");
+    //         return;
+    //         }
 
-            setFile(selectedFile);
-        };
+    //         if(selectedFile && selectedFile[0]){
+    //             setFile(prev => ({
+    //                 ...prev,
+    //                 [name]: selectedFile[0]
+    //             }));
+    //         }
+
+    //     };
 
     // 취소버튼 handler
     const handleCancel = () => {
@@ -100,8 +173,8 @@ const NoticeInsertForm = () => {
                             label="제목"
                             type="text"
                             name="title"
-                            value={title}
-                            onChange={(e) => setTitle(e.target.value)}
+                            value={formData.title}
+                            onChange={handleChange}
                             required
                             placeholder="공지사항 제목을 입력하세요"
                         />
@@ -110,16 +183,16 @@ const NoticeInsertForm = () => {
                             label="고정 여부"
                             type="toggle-switch"
                             name="fix"
-                            value={fix}
-                            onChange={(e) => setFix(e.target.value)}   // e.target.value → boolean
+                            value={formData.fix}
+                            onChange={handleChange}   // e.target.value → boolean
                         />
 
                         <FormField
                             label="내용"
                             type="textarea"
                             name="content"
-                            value={content}
-                            onChange={(e) => setContent(e.target.value)}
+                            value={formData.content}
+                            onChange={handleChange}
                             required
                             placeholder="공지사항 내용을 입력하세요"
                             rows={8}
@@ -128,8 +201,9 @@ const NoticeInsertForm = () => {
                         <FormField
                             label="첨부파일"
                             type="file"
-                            name="file"
+                            name="files"
                             onChange={handleFileChange}
+                            fileName={fileNames}
 
                         />
 

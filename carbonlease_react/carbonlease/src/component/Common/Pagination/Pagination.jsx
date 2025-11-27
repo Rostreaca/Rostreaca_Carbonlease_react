@@ -1,8 +1,7 @@
 import { PageButton, PaginationContainer } from './Pagination.styled';
-
-const Pagination = ({ 
-    currentPage, 
-    setCurrentPage, 
+const Pagination = ({
+    currentPage,
+    setCurrentPage,
     pageInfo = {
         startPage:"",
         endPage:"",
@@ -10,7 +9,6 @@ const Pagination = ({
     },
     campaignsLength = 0
 }) => {
-
     // 페이지 번호 배열 생성
     const getPageNumbers = () => {
         if (pageInfo) {
@@ -25,13 +23,11 @@ const Pagination = ({
         }
         return [];
     };
-
     // 페이지 이동 핸들러
     const handleFirstPage = () => {
         setCurrentPage(1);
         window.scrollTo({ top: 0, behavior: 'smooth' });
     };
-
     // 이전 페이지 그룹 이동
     const handlePrevPage = () => {
         if (currentPage > 1) {
@@ -39,13 +35,11 @@ const Pagination = ({
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
     };
-
     // 특정 페이지 클릭
     const handlePageClick = (page) => {
         setCurrentPage(page);
         window.scrollTo({ top: 0, behavior: 'smooth' });
     };
-
     // 다음 페이지 그룹 이동
     const handleNextPage = () => {
         if (currentPage < pageInfo.totalPage) {
@@ -53,34 +47,27 @@ const Pagination = ({
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
     };
-
     // 마지막 페이지 이동
     const handleLastPage = () => {
         setCurrentPage(pageInfo.totalPage);
         window.scrollTo({ top: 0, behavior: 'smooth' });
     };
-
-
     const pageNumbers = getPageNumbers();
-
     return (
         <PaginationContainer>
-            <PageButton 
-                onClick={handleFirstPage} 
+            <PageButton
+                onClick={handleFirstPage}
                 disabled={currentPage === 1}
             >
                 <i className="bi bi-chevron-double-left"></i>
             </PageButton>
-            <PageButton 
-                onClick={handlePrevPage} 
+            <PageButton
+                onClick={handlePrevPage}
                 disabled={currentPage === 1}
             >
                 <i className="bi bi-chevron-left"></i>
             </PageButton>
-
             {pageNumbers.map(page => {
-                // 마지막 페이지 && 데이터가 없으면 버튼 숨김
-                if (page === pageInfo.totalPage && campaignsLength === 0) return null;
                 return (
                     <PageButton
                         key={page}
@@ -91,21 +78,19 @@ const Pagination = ({
                     </PageButton>
                 );
             })}
-            
-            <PageButton 
-                onClick={handleNextPage} 
-                disabled={currentPage === pageInfo.totalPage || (currentPage === pageInfo.totalPage - 1 && campaignsLength === 0)}
+            <PageButton
+                onClick={handleNextPage}
+                disabled={currentPage === pageInfo.totalPage || (currentPage === pageInfo.totalPage && campaignsLength === 0)}
             >
                 <i className="bi bi-chevron-right"></i>
             </PageButton>
-            <PageButton 
-                onClick={handleLastPage} 
-                disabled={currentPage === pageInfo.totalPage || campaignsLength === 0}
+            <PageButton
+                onClick={handleLastPage}
+                disabled={pageInfo.totalPage === 0 || currentPage === pageInfo.totalPage}
             >
                 <i className="bi bi-chevron-double-right"></i>
             </PageButton>
         </PaginationContainer>
     );
 };
-
 export default Pagination;

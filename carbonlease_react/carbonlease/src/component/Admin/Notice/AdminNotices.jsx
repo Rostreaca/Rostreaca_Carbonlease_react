@@ -35,7 +35,7 @@ const AdminNotices = () => {
     useEffect (()=>{
         getNotices(currentPage);
         //console.log(auth)
-    }, [currentPage, auth])
+    }, [currentPage])
 
     const getNotices = (page) => {
         if(auth.accessToken){
