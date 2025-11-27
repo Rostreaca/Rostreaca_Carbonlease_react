@@ -8,7 +8,7 @@ export const PageWrapper = styled.div`
   display: flex;
   max-width: 1400px;
   margin: 0 auto;
-  gap: 40px;
+  gap: ${props => (props.$showSidebar ? "40px" : "0px")};
   padding: 40px 0;
   min-height: 800px;
 `;
