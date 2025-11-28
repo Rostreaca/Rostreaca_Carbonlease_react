@@ -150,7 +150,11 @@ const AdminUsers = () => {
                 :
                 <p>
                     데이터가 존재하지 않습니다.
-                    <Button variant="dark" onClick={()=>{(setKeyword(''),setIsEdited(true))}}>회원 목록 조회</Button>
+                    {keyword !== ''?
+                        <Button variant="dark" onClick={()=>{(setKeyword(''),setIsEdited(true))}}>회원 목록 조회</Button>
+                        :
+                        <></>
+                    }
                 </p>
                 }
     <Dropdown className="userDropDown">
