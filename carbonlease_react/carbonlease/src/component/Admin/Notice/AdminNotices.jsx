@@ -61,12 +61,12 @@ const AdminNotices = () => {
         }
     }
 
-    const handleEdit = (id) => {
-        navigate(`/admin/notices/update/${id}`);
+    const handleEdit = (noticeNo) => {
+        navigate(`/admin/notices/update/${noticeNo}`);
     };
 
-    const handleDelete = (id) => {
-        setSelectedId(id);
+    const handleDelete = (noticeNo) => {
+        setSelectedId(noticeNo);
         setShowConfirm(true);
     };
 
@@ -133,17 +133,17 @@ const AdminNotices = () => {
         {
             header: '관리',
             field: 'id',
-            render: (value) => (
+            render: (value, row) => (
                 <ButtonGroup>
                     <EditButton onClick={(e) => {
                                                 e.stopPropagation();
-                                                handleEdit(value);
+                                                handleEdit(row.noticeNo);
                     }}>
                         수정
                     </EditButton>
                     <DeleteButton onClick={(e) => {
                         e.stopPropagation();
-                        handleDelete(value)
+                        handleDelete(row.noticeNo)
                     }}>
                         삭제
                     </DeleteButton>
