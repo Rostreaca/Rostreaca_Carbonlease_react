@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { ComposableMap, Geographies, Geography, Marker } from 'react-simple-maps';
-import { getRegionParticipationStats } from '../../../../api/main/regionStatsApi';
+import { getRegionCarbonStats } from '../../../../api/main/regionStatsApi';
 import {
     InfoBox,
     InfoContent,
@@ -20,67 +20,33 @@ const RegionStatsMap = () => {
     const [tooltipContent, setTooltipContent] = useState('');
 
     useEffect(() => {
-        getRegionParticipationStats()
-            .then(res => {
-                setRegionData(mapParticipationStatsToMap(res.data));
-            })
-            .catch(err => {
+        const fetchData = async () => {
+            try {
+                const data = await getRegionParticipationStats();
+                // 최근 3개월 평균 참여율로 변환
+                const mapped = data.map(item => {
+                    const avgPtcpRt = Math.round(
+                        item.history.reduce((sum, h) => sum + h.ptcpRt, 0) / item.history.length
+                    );
+                    // 좌표 등은 기존 regionStatsApi.js의 좌표 매핑 참고
+                    const regionInfo = getDummyRegionStats().find(r => r.region === item.region);
+                    return {
+                        region: item.region,
+                        value: avgPtcpRt,
+                        lat: regionInfo?.lat,
+                        lng: regionInfo?.lng
+                    };
+                });
+                setRegionData(mapped);
+            } catch (err) {
                 console.error('Failed to fetch region data:', err);
-            })
-            .finally(() => {
+            } finally {
                 setLoading(false);
-            });
+            }
+        };
+        fetchData();
     }, []);
-    
 
-    // 참여율 API 응답을 지도 시각화용으로 변환 (평균 참여율, 좌표 매핑)
-    const mapParticipationStatsToMap = (apiData) => {
-        const coords = [
-            { region: '서울', lat: 37.5665, lng: 126.9780 },
-            { region: '부산', lat: 35.1796, lng: 129.0756 },
-            { region: '인천', lat: 37.4563, lng: 126.7052 },
-            { region: '대구', lat: 35.8714, lng: 128.6014 },
-            { region: '대전', lat: 36.3504, lng: 127.3845 },
-            { region: '광주', lat: 35.1595, lng: 126.8526 },
-            { region: '울산', lat: 35.5384, lng: 129.3114 },
-            { region: '세종', lat: 36.4801, lng: 127.2890 },
-            { region: '경기', lat: 37.4138, lng: 127.5183 },
-            { region: '강원', lat: 37.8228, lng: 128.1555 },
-            { region: '충북', lat: 36.6357, lng: 127.4917 },
-            { region: '충남', lat: 36.5184, lng: 126.8000 },
-            { region: '전북', lat: 35.7167, lng: 127.1442 },
-            { region: '전남', lat: 34.8161, lng: 126.4630 },
-            { region: '경북', lat: 36.4919, lng: 128.8889 },
-            { region: '경남', lat: 35.4606, lng: 128.2132 },
-            { region: '제주', lat: 33.4996, lng: 126.5312 }
-        ];
-
-        if (!Array.isArray(apiData)) return [];
-
-        return apiData
-            .map(item => {
-                let avgPtcpRt = 0;
-                if (item.history && item.history.length > 0) {
-                    const sum = item.history.reduce((sum, h) => sum + (Number(h.ptcpRt) || 0), 0);
-                    avgPtcpRt = Math.round(sum / item.history.length);
-                }
-                if (!isFinite(avgPtcpRt) || isNaN(avgPtcpRt)) avgPtcpRt = 0;
-
-                const coord = coords.find(c => c.region === item.region);
-                if (!coord) return null;
-
-                return {
-                    region: item.region,
-                    value: avgPtcpRt,
-                    lat: coord.lat,
-                    lng: coord.lng,
-                    history: item.history
-                };
-            })
-            .filter(Boolean);
-    };
-
-    
     if (loading) {
         return (
             <MapContainer>
@@ -89,13 +55,11 @@ const RegionStatsMap = () => {
         );
     }
 
-    // 버블 크기 계산 (평균 참여율 value에 따라)
+    // 버블 크기 계산 (value에 따라)
     const getBubbleSize = (value) => {
         const minSize = 20;
         const maxSize = 60;
-        const validValues = regionData.map(r => r.value).filter(v => typeof v === 'number' && !isNaN(v));
-        const maxValue = validValues.length > 0 ? Math.max(...validValues) : 1;
-        if (!value || isNaN(value) || !isFinite(value)) return minSize;
+        const maxValue = Math.max(...regionData.map(r => r.value));
         return minSize + ((value / maxValue) * (maxSize - minSize));
     };
 
@@ -105,10 +69,10 @@ const RegionStatsMap = () => {
                 <InfoIcon className="bi bi-geo-alt-fill" />
                 <InfoContent>
                     <InfoTitle>
-                        광역시·도별 최근 3개월 평균 참여율
+                        광역시 지역별 탄소중립 포인트
                     </InfoTitle>
                     <InfoDescription>
-                        각 지역의 친환경 실천 활동 참여율(%)을 확인하세요
+                        각 지역의 친환경 실천 활동을 통해 적립된 포인트를 확인하세요
                     </InfoDescription>
                 </InfoContent>
             </InfoBox>
@@ -150,6 +114,7 @@ const RegionStatsMap = () => {
                     {regionData.map((region) => {
                         const size = getBubbleSize(region.value);
                         const isHovered = hoveredRegion === region.region;
+                        
                         return (
                             <Marker
                                 key={region.region}
@@ -158,7 +123,7 @@ const RegionStatsMap = () => {
                                 <g
                                     onMouseEnter={() => {
                                         setHoveredRegion(region.region);
-                                        setTooltipContent(`${region.region}: ${region.value}% 참여율`);
+                                        setTooltipContent(`${region.region}: ${region.value.toLocaleString()} 포인트`);
                                     }}
                                     onMouseLeave={() => {
                                         setHoveredRegion(null);
@@ -199,7 +164,7 @@ const RegionStatsMap = () => {
                                             pointerEvents: 'none'
                                         }}
                                     >
-                                        {region.value}%
+                                        {(region.value / 1000).toFixed(1)}k
                                     </text>
                                 </g>
                             </Marker>
