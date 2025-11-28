@@ -138,6 +138,8 @@ const AdminUsers = () => {
     return (
         <div>
             <h1>회원 관리</h1>
+                {
+                data.length !== 0 ?
                 <DataTable
                     title="회원 목록"
                     columns={columns}
@@ -145,6 +147,12 @@ const AdminUsers = () => {
                     icon="fas fa-leaf"
                     className="userTable"
                 ></DataTable>
+                :
+                <p>
+                    데이터가 존재하지 않습니다.
+                    <Button variant="dark" onClick={()=>{(setKeyword(''),setIsEdited(true))}}>회원 목록 조회</Button>
+                </p>
+                }
     <Dropdown className="userDropDown">
       <Dropdown.Toggle variant="success" id="dropdown-basic">
         {dropDownName}
