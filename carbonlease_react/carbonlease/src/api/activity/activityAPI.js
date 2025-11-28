@@ -46,8 +46,6 @@ export const fetchActivityDetail = (activityNo) => {
 };
 
 
-
-
 export const toggleLike = (activityNo) => {
     const accessToken = localStorage.getItem('accessToken');
     if (!accessToken) {
