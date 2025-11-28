@@ -1,6 +1,6 @@
 import PageTitle from "../../Common/Layout/PageTitle/PageTitle.jsx";
 import PageContent from "../../Common/PageContent/PageContent.jsx";
-import { Wrapper, ActivityInfo, ProfilAndLike, ButtonSection,CommentSection, LikeButton, BackButton } from "./ActivityBoardDetail.styles.js";
+import { Wrapper, ActivityInfo, ButtonSection,CommentSection, BackButton } from "./ActivityBoardDetail.styles.js";
 import CommentInsert from "./components/Comments/CommentInsert.jsx";
 import Comments from "./components/Comments/Comments.jsx";
 import ImageSection from "./components/ImageSection.jsx";
@@ -18,6 +18,7 @@ import useReplies from "./hooks/useReplies.js";
 import useToast from "./hooks/useToast.js";
 import useLike from "./hooks/useLike.js";
 import useDetail from "./hooks/useDetail.js";
+import LikeButton from "./components/LikeButton.jsx";
 
 
 const ActivityBoardDetail = ({}) => {
@@ -110,7 +111,12 @@ const ActivityBoardDetail = ({}) => {
               createDate={post.enrollDate}
               views={post.viewCount}
               likes={likeCount}
+
+              isLiked={isLiked}
+              likeCount={likeCount}
+              onLike={() => handleToggleLike(auth.accessToken)}
             />
+
           </ActivityInfo>
           
           {/* 이미지 */}
@@ -123,23 +129,13 @@ const ActivityBoardDetail = ({}) => {
           {/* 지도 영역 */}
           <MapSection lat={post.lat} lng={post.lng}/>
           
-          {/* 프로필 카드 + 좋아요 버튼 */}
-          <ProfilAndLike>
-            <ProfilCard 
-              nickName={post.nickName}
-              count={post.certificationCount}
-              carbon={post.carbonSave}
-            />
+          {/* 프로필 카드 */}
+          <ProfilCard 
+            nickName={post.nickName}
+            count={post.certificationCount}
+            carbon={post.carbonSave}
+          />
 
-            <LikeButton
-              $liked={isLiked}
-              onClick={() => handleToggleLike(auth.accessToken)}
-              className="detail-like-btn"
-            >
-              <i className={isLiked ? "bi bi-heart-fill" : "bi bi-heart"}></i>
-              좋아요
-            </LikeButton>
-          </ProfilAndLike>
           <hr />
 
           {/* 수정/삭제 버튼 */}

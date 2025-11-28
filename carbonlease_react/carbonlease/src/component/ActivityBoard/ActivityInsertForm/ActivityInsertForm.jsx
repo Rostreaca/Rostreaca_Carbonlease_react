@@ -2,7 +2,7 @@ import PageTitle from "../../Common/Layout/PageTitle/PageTitle"
 import PageContent from "../../Common/PageContent/PageContent"
 import AddressSearchInput from "./components/AddressSearchInput";
 import ImagePreviewBox from "./components/ImagePreviewBox";
-import { ActivityForm, ButtonSection, FormArea, SelectLabel, SelectRow } from "./ActivityInsertForm.styles";
+import { ActivityForm, ButtonSection, CancelButton, FormArea, InputButton, SelectLabel, SelectRow } from "./ActivityInsertForm.styles";
 import RegionSelect from "./components/RegionSelect";
 import CategorySelect from "./components/CategorySelect";
 import TextInputSection from "./components/TextInputSection";
@@ -98,8 +98,8 @@ const ActivityInsertForm = () => {
 
             <hr />
             <ButtonSection>
-            <button type="submit">등록</button>
-            <button type="button" onClick={() => window.history.back()}>취소</button>
+            <InputButton type="submit">등록</InputButton>
+            <CancelButton type="button" onClick={() => window.history.back()}>취소</CancelButton>
             </ButtonSection>
             </ActivityForm>
           </FormArea>

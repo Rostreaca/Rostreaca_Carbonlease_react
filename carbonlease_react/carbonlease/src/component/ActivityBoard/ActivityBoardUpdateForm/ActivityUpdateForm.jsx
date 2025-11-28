@@ -6,7 +6,7 @@ import AddressSearchInput from "../ActivityInsertForm/components/AddressSearchIn
 import CategorySelect from "../ActivityInsertForm/components/CategorySelect";
 import RegionSelect from "../ActivityInsertForm/components/RegionSelect";
 import ImagePreviewBox from "../ActivityInsertForm/components/ImagePreviewBox";
-import { ActivityForm, ButtonSection, FormArea, SelectLabel, SelectRow } from "./ActivityUpdateForm.styles";
+import { ActivityForm, ButtonSection, CancelButton, FormArea, InputButton, SelectLabel, SelectRow } from "../../ActivityBoard/ActivityInsertForm/ActivityInsertForm.styles";
 import useToast from "../ActivityBoardDetail/hooks/useToast";
 import useUpdateFormState from "./hooks/useUpdateFormState";
 import useUpdateSubmit from "./hooks/useUpateSubmit";
@@ -109,8 +109,8 @@ const ActivityUpdateForm = () => {
 
             <hr />
             <ButtonSection>
-              <button type="submit">수정</button>
-              <button type="button" onClick={() => window.history.back()}>취소</button>
+              <InputButton type="submit">수정</InputButton>
+              <CancelButton type="button" onClick={() => window.history.back()}>취소</CancelButton>
             </ButtonSection>
 
           </ActivityForm>

@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { SearchButton } from "../ActivityInsertForm.styles";
 
 export default function AddressSearchInput({ value, onChange }) {
 
@@ -51,13 +52,13 @@ export default function AddressSearchInput({ value, onChange }) {
         readOnly
         className="form-control"
       />
-      <button 
+      <SearchButton 
         type="button" 
         className="btn btn-outline-secondary" 
         onClick={handleSearch}
       >
         검색
-      </button>
+      </SearchButton>
     </div>
   );
 }
