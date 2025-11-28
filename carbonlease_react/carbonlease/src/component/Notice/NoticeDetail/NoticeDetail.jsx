@@ -7,53 +7,64 @@ import PageTitle from '../../Common/Layout/PageTitle/PageTitle';
 import PageContent from '../../Common/PageContent/PageContent';
 import { NoticeDetailContainer } from './NoticeDetail.styled';
 import NoticeHeader from './components/NoticeHeader';
-import NoticeImage from './components/NoticeImage';
 import NoticeContent from './components/NoticeContent';
 import NoticeMeta from './components/NoticeMeta';
 import NoticeActions from './components/NoticeActions';
+import NoticeFiles from './components/NoticeFiles';
 
 const NoticeDetail = () => {
-    
     const navigate = useNavigate();
 
+    // 게시물 ID 가져오기
     const {id} = useParams();
+
+    // 가져올 게시물 Data목록
     const [notice, setNotice] = useState(
         {
-            title: "",
-            content: "",
-            viewCount: "",
-            createDate: ""
+            title: "제목임",
+            content: "내용임",
+            viewCount: "1",
+            createDate: "2025-01-01",
+            files:[
+                {
+                    "originName": "sample.pdf",
+                    "changeName": "20251128_abc123.pdf",
+                    "filePath": "/upload/notice/"
+                }
+            ]
         }
     )
 
+    // 게시글 컴포넌트 배열
     const noticeComponents = [
         NoticeHeader,
-        //NoticeImage,
+        NoticeFiles,
         NoticeContent,
-        NoticeMeta,
+        NoticeMeta
     ];
-
-    const handleBack = () => {
-        navigate('/notices');
-    };
-
+    
+    // 게시글 상세조회 요청
     useEffect(()=>{
         axios
             .get(`http://www.localhost/notices/detail/${id}`)
             .then((result) => {
                 const response = result.data;
                 console.log(response);
-                setNotice({
-                    title: response.noticeTitle,
-                    content: response.noticeContent,
-                    viewCount: response.viewCount,
-                    createDate: response.createDate
-                })
+                // setNotice({
+                //     title: response.noticeTitle,
+                //     content: response.noticeContent,
+                //     viewCount: response.viewCount,
+                //     createDate: response.createDate
+                // })
             })
 
     }, [id])
-    
-    
+
+    // 목록으로 돌아가기
+    const handleBack = () => {
+        navigate('/notices');
+    };
+
     return(
         <>
             <PageTitle 

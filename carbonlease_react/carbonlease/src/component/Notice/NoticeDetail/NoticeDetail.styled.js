@@ -142,3 +142,34 @@ export const ErrorContainer = styled.div`
         margin-bottom: 20px;
     }
 `;
+
+export const FileWrapper = styled.div`
+    margin: 10px 0 20px 0;
+    padding: 10px 0;
+    border-bottom: 1px solid #e5e5e5;
+`;
+
+export const FileHeader = styled.div`
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 8px;
+`;
+
+export const FileItem = styled.div`
+    display: flex;
+    align-items: center;
+    gap: 6px;
+
+    font-size: 13px;
+    color: #555;
+    cursor: pointer;
+
+    &:hover {
+        color: #0074d9;
+        text-decoration: underline;
+    }
+`;
+
+export const FileIcon = styled.span`
+    font-size: 14px;
+`;

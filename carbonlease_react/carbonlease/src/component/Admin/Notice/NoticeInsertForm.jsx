@@ -17,14 +17,9 @@ import { useNavigate } from 'react-router-dom';
 
 const NoticeInsertForm = () => {
 
-    const navigate = useNavigate();
     const [errors, setErrors] = useState({});
     const navi = useNavigate();
 
-    // const [title, setTitle] = useState("");
-    // const [content, setContent] = useState("");
-    // const [fix, setFix] = useState("");
-    // const [file, setFile] = useState(null);
     const { auth } = useContext(AuthContext);
 
     // 폼 데이터 상태 관리
@@ -94,12 +89,6 @@ const NoticeInsertForm = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        // validate()
-        // if (!title.trim() || !content.trim()) {
-        //     alert("제목과 내용은 필수입니다.");
-        //     return;
-        // }
-
         // formData 생성하기
         const notice = new FormData();
         notice.append("noticeTitle", formData.title);
@@ -132,28 +121,9 @@ const NoticeInsertForm = () => {
         });
     };
 
-    // const handleFileChange = (e) => {
-    //         const { name, selectedFile} = e.target;
-    //         console.log(selectedFile);
-    //         const maxSize = 1024 * 1024 * 10;
-
-    //         if (selectedFile && selectedFile.size > maxSize) {
-    //         alert("너무 용량이 커요 힘듭니다 서버가");
-    //         return;
-    //         }
-
-    //         if(selectedFile && selectedFile[0]){
-    //             setFile(prev => ({
-    //                 ...prev,
-    //                 [name]: selectedFile[0]
-    //             }));
-    //         }
-
-    //     };
-
     // 취소버튼 handler
     const handleCancel = () => {
-        navigate('/admin/notices');
+        navi('/admin/notices');
     };
     
     return (
