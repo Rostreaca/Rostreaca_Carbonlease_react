@@ -21,6 +21,8 @@ import useToast from "./hooks/useToast.js";
 import useLike from "./hooks/useLike.js";
 import useDetail from "./hooks/useDetail.js";
 import activityStore from "../../../store/activityStore.js";
+import ActivityDetailSkeleton from "./components/Skeleton/ActivityDetailSkeleton.jsx";
+import NotFound from "../../Common/NotFound/NotFound.jsx";
 
 const ActivityBoardDetail = () => {
 
@@ -69,8 +71,22 @@ const ActivityBoardDetail = () => {
   } = useReplies(id, auth.accessToken);
   
 
-  if (auth.isAuthenticated && !auth.memberId) return <div>로딩중...</div>;
-  if (!post) return <div>게시글을 찾을 수 없습니다.</div>;
+  if (loading) return <ActivityDetailSkeleton />;
+  if (!post) {
+  return (
+    <NotFound
+      title="게시글을 찾을 수 없습니다."
+      description="삭제되었거나 주소가 잘못되었습니다."
+      backPath="/activityBoards"
+      backText="목록으로 돌아가기"
+      breadcrumbs={[
+        { label: "Home", path: "/" },
+        { label: "인증게시판", path: "/activityBoards" },
+        { label: "조회 실패", current: true },
+      ]}
+    />
+  );
+}
   
   const handleUpdate = () => navigate(`/activityBoards/update/${id}`);
 

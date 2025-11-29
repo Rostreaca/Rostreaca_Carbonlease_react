@@ -19,7 +19,9 @@ const ActivityBoards = () => {
         currentPage,
         setCurrentPage,
         pageInfo,
-        handleSearch
+        handleSearch,
+        loading,
+        setLoading
     } = useActivityBoards();
 
     return (
@@ -35,8 +37,9 @@ const ActivityBoards = () => {
             <PageContent>
                 
                 <BoardsList 
-                    boards={activityBoards}
-                    onClickItem={(id) => navigate(`/activityBoards/${id}`)}
+                boards={activityBoards}
+                loading={loading}
+                onClickItem={(id) => navigate(`/activityBoards/${id}`)}
                 />
                
                 <ButtonAndSearch>

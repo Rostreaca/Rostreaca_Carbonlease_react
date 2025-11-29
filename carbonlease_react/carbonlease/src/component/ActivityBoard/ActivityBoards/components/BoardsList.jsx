@@ -1,17 +1,20 @@
 import { BoardNo, BoardsRow, Content, ETC, ListWrapper, TextInfo, Thumbnail, Title } from "../ActivityBoards.styles";
+import SkeletonBoardsList from "./SkeletonBoardsList";
 
-const BoardsList = ({ boards, onClickItem }) => {
+const BoardsList = ({ boards, onClickItem, loading }) => {
+
+  if (loading) return <SkeletonBoardsList />
 
   return (
       <ListWrapper>
           {boards.length === 0 ? (
-            <div style={{ padding: "40px", textAlign: "center"}}>게시글이 없습니다.</div>
+            <div style={{ padding: "40px", textAlign: "center", color: "#888" }}>
+              검색된 게시글이 없습니다.
+            </div>
           ) : (
             boards.map((item) => (
-
               <BoardsRow key={item.activityNo} onClick={() => onClickItem(item.activityNo)}>
                   <BoardNo>{item.activityNo}</BoardNo>
-              
               <TextInfo>
                   <Title>{item.activityTitle}</Title>
                   <Content>{item.activityContent}</Content>
