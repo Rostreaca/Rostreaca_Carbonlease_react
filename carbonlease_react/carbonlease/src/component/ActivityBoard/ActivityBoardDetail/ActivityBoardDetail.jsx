@@ -74,8 +74,8 @@ const ActivityBoardDetail = () => {
   if (!post) {
   return (
     <NotFound
-      title="게시글을 찾을 수 없습니다."
-      description="삭제되었거나 주소가 잘못되었습니다."
+      title="페이지를 찾을 수 없습니다"
+      description="요청하신 페이지가 삭제되었거나 주소가 잘못되었습니다."
       backPath="/activityBoards"
       backText="목록으로 돌아가기"
       breadcrumbs={[
