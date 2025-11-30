@@ -31,6 +31,12 @@ export const SkeletonBox = styled.div`
   animation: ${shimmer} 1.5s infinite;
 `;
 
+export const SkeletonContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+`;
+
 export const SkeletonImage = styled.div`
   width: 110px;
   height: 80px;

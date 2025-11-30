@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { SearchButton } from "../ActivityInsertForm.styles";
+import { SearchButton, SearchInput, SearchWrapper } from "../ActivityInsertForm.styles";
 
 export default function AddressSearchInput({ value, onChange }) {
 
@@ -44,8 +44,8 @@ export default function AddressSearchInput({ value, onChange }) {
   };
 
   return (
-    <div style={{ display:'flex', gap:'8px' }}>
-      <input
+    <SearchWrapper>
+      <SearchInput
         type="text"
         value={value}
         placeholder="주소를 검색해주세요."
@@ -59,6 +59,6 @@ export default function AddressSearchInput({ value, onChange }) {
       >
         검색
       </SearchButton>
-    </div>
+    </SearchWrapper>
   );
 }

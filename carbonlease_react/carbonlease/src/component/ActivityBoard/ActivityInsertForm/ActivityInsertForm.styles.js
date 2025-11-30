@@ -124,6 +124,15 @@ export const CancelButton = styled.button`
   }
 `;
 
+export const SearchWrapper = styled.div`
+  display: flex;
+  gap: 8px;
+`;
+
+export const SearchInput = styled.input`
+  
+`;
+
 export const SearchButton = styled.button`
   height: 45px;
   width: 100px;

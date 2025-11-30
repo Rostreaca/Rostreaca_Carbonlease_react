@@ -6,10 +6,11 @@ export const SidebarWrapper = styled.div`
   top: 220px;
   align-self: flex-start;
 
-  min-width: 270px;
+  width: 200px;
+  min-width:200px;
   flex-shrink: 0;
 
-  padding: 14px;
+  padding: 11px;
   background: #fff;
 
   border-radius: 14px;
@@ -28,12 +29,12 @@ export const SidebarWrapper = styled.div`
   }
 
   .region-select-box {
-    margin-bottom: 12px;
+    margin-bottom: 9px;
     text-align: center;
   }
 
   .region-select {
-    width: 100%;
+    width: 98%;
     padding: 10px;
     border-radius: 10px;
     border: 1px solid rgba(35,165,91,0.4);
@@ -48,9 +49,10 @@ export const SidebarWrapper = styled.div`
 export const RegionBox = styled.div`
   background: #ffffff;
   border: 1px solid rgba(35,165,91,0.4);
-  padding: 16px;
+  padding: 15px;
+  margin: 2px;
   border-radius: 12px;
-  margin-bottom: 16px;
+  margin-bottom: 9px;
 
   .title {
     font-weight: 700;
@@ -79,16 +81,43 @@ export const RegionBox = styled.div`
 
 export const SidoInfoBox = styled.div`
   background: #f6fff9;
-  padding: 18px;
+  padding: 15px;
   border: 1px solid rgba(35,165,91,0.4);
   border-radius: 12px;
   text-align: center;
+  height: 120px;
+  transition: opacity 0.85s cubic-bezier(0.22, 0.61, 0.36, 1),
+            transform 0.85s cubic-bezier(0.22, 0.61, 0.36, 1);
+
+  /* 왼쪽으로 사라짐 */
+  &.fade-slide-out-left {
+    opacity: 0;
+    transform: translateX(-8%);
+  }
+
+  /* 오른쪽으로 사라짐 */
+  &.fade-slide-out-right {
+    opacity: 0;
+    transform: translateX(8%);
+  }
+
+  /* 자동 슬라이드는 왼쪽 방향 */
+  &.fade-slide-out {
+    opacity: 0;
+    transform: translateX(-8%);
+  }
+
+  /* 나타나는 애니메이션 */
+  &.fade-slide-in {
+    opacity: 1;
+    transform: translateX(0);
+  }
 
   .nav {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 6px;
+    margin-bottom: 2px;
   }
 
   .arrow {
@@ -98,7 +127,7 @@ export const SidoInfoBox = styled.div`
     font-weight: 700;
     color: #1a6b3e;
     cursor: pointer;
-    padding: 4px 8px;
+    padding: 2px 8px;
   }
 
   .title {
@@ -110,7 +139,7 @@ export const SidoInfoBox = styled.div`
   .date {
     font-size: 12px;
     color: #666;
-    margin: 4px 0;
+    margin: 2px 0;
   }
 
   .value {
@@ -119,3 +148,4 @@ export const SidoInfoBox = styled.div`
     color: #1b9a50;
   }
 `;
+
