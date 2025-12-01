@@ -5,17 +5,15 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import BoardItems from '../Boards/components/BoardItems';
-import { ButtonArea, ButtonGroup, LikeCard, ProfileAndLike, ReplyButton, ReplyWriteArea } from '../../ActivityBoard/ActivityBoardDetail/ActivityBoardDetail.styles';
-import OutlineSuccessButton from "../../Common/UI/Button/OutlineWriterButton.jsx";
-import OutlineDangerButton from '../../Common/UI/Button/OutlineDangerButton';
-import { Button, Form, Modal } from 'react-bootstrap';
+import { Form, Modal } from 'react-bootstrap';
 import BoardReply from './BoardReply.jsx';
 import RegionSelect from '../../../component/ActivityBoard/ActivityInsertForm/components/RegionSelect.jsx';
 import ReplyPagination from '../../Common/UI/ReplyPagination.jsx';
-import { FormArea } from './BoardDetailStyles.js';
+import { BackButton, FormArea, StyledButton } from './BoardDetailStyles.js';
 import { AuthContext } from "../../Context/AuthContext";
 import { useContext } from "react";
 import { useRef } from "react";
+import { ReplyButton } from '../../ActivityBoard/ActivityBoardDetail/ActivityBoardDetail.styles.js';
 
 const BoardDetail = () => {
     const accessToken = localStorage.getItem("accessToken");
@@ -157,7 +155,6 @@ const BoardDetail = () => {
               {/* {댓글 리스트} */}
             <BoardReply data={reply}/>
             <ReplyPagination currentPage={1} totalPages={board.replyCount} />  
-             <ProfileAndLike>
               
               {/* {댓글 등록} */}
             <Form.Label><strong>댓글</strong></Form.Label>
@@ -181,26 +178,20 @@ const BoardDetail = () => {
 
 
             {/* 좋아요 */}
-            <LikeCard $liked={post.isLiked} onClick={handleLikeToggle}>
+            <StyledButton $liked={post.isLiked} onClick={handleLikeToggle}>
                 <i className={post.isLiked ? 'bi bi-heart-fill' : 'bi bi-heart'} />
-                {post.isLiked ? '좋아요 취소' : '좋아요'}
-            </LikeCard>
-            </ProfileAndLike>
+                {post.isLiked ? '좋아요' : '좋아요'}
+            </StyledButton>
 
             {/* 버튼 */}
-            <ButtonArea>
-                <OutlineSuccessButton onClick={goList}>목록으로</OutlineSuccessButton>
-                <ButtonGroup>
-                <OutlineSuccessButton onClick={handleUpdate}>수정</OutlineSuccessButton>
-                <OutlineDangerButton>삭제</OutlineDangerButton>
-                </ButtonGroup>
-            </ButtonArea>
-
-            </FormArea>
+                <BackButton onClick={goList}>목록으로</BackButton>
+                <BackButton onClick={handleUpdate}>수정</BackButton>
+                <BackButton >삭제</BackButton>
+               
+              </FormArea>
             </PageContent>
         </>
-
-    )
-}
+    );
+};
 
 export default BoardDetail;
