@@ -2,15 +2,23 @@ import axios from "axios";
 import { xml2json } from "xml-js";
 
 const cache = {};
-const CACHE_DURATION = 1000 * 60 * 30; // 5분 캐시
+const CACHE_DURATION = 1000 * 60 * 30; // 30분 캐시
+let lastSidoCallTime = 0;
+
+const RATE_LIMIT = 1500;
 
 export const fetchSidoAPI = async (sido) => {
-  const cacheKey = `sido-${sido}`;
   const now = Date.now();
+  
+  if (now -lastSidoCallTime < RATE_LIMIT) {
+    console.warn("요청 과다 => rate limit으로 막힘");
+    return null;
+  }
+  lastSidoCallTime = now;
 
-  // 캐시 존재 + 유효하면 바로 리턴
+  const cacheKey = `sido-${sido}`;
+
   if (cache[cacheKey] && now - cache[cacheKey].time < CACHE_DURATION) {
-    // console.log("시도 캐시 사용:", cacheKey);
     return cache[cacheKey].data;
   }
 
@@ -21,14 +29,14 @@ export const fetchSidoAPI = async (sido) => {
   const params = {
     serviceKey: import.meta.env.VITE_PUBLIC_DATA_KEY,
     returnType: "xml",
-    numOfRows: 1000,
+    numOfRows: 100,
     pageNo: 1,
     sidoName: sido,
     ver: "1.0",
   };
 
   const res = await axios.get(url, { params, responseType: "text" });
-  const json = JSON.parse(xml2json(res.data, { compact: true, spaces: 2 }));
+  const json = JSON.parse(xml2json(res.data, { compact: true }));
 
   // 캐시 저장
   cache[cacheKey] = {
