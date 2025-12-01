@@ -2,15 +2,23 @@ import axios from "axios";
 import { xml2json } from "xml-js";
 
 const cache = {};
-const CACHE_DURATION = 1000 * 60 * 30; // 5분 캐시
+const CACHE_DURATION = 1000 * 60 * 30; // 30분 캐시
+let lastAirCallTime = 0;
+
+const RATE_LIMIT = 1500;
 
 export const fetchAirAPI = async (region) => {
-  // 캐시 체크
-  const cacheKey = `air-${region}`;
   const now = Date.now();
 
+  if (now - lastAirCallTime < RATE_LIMIT) {
+    console.warn("요청과다 => rate limit으로 막힘");
+    return null;
+  }
+  lastAirCallTime = now;
+
+  const cacheKey = `air-${region}`;
+
   if (cache[cacheKey] && now - cache[cacheKey].time < CACHE_DURATION) {
-    // console.log("캐시 사용:", cacheKey);
     return cache[cacheKey].data;
   }
 
@@ -29,7 +37,7 @@ export const fetchAirAPI = async (region) => {
   };
 
   const res = await axios.get(url, { params, responseType: "text" });
-  const json = JSON.parse(xml2json(res.data, { compact: true, spaces: 2 }));
+  const json = JSON.parse(xml2json(res.data, { compact: true }));
 
   // 캐시 저장
   cache[cacheKey] = {

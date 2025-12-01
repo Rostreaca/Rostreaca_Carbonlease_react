@@ -42,5 +42,5 @@ export const restoreBoard = (id) =>
   adminActivityAPI.patch(`/activityBoards/restore/${id}`);
 
 export const deleteBoard = (id) =>
-  adminActivityAPI.delete(`/activityBoards/${id}`);
+  adminActivityAPI.delete(`/activityBoards/delete/${id}`);
 
