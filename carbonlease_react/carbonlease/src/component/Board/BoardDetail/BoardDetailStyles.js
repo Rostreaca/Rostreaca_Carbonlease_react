@@ -103,12 +103,6 @@ export const CategorySelectButton = styled.select`
   }
 `
 
-export const ButtonSection = styled.div`
-  display: flex;
-  gap: 8px;
-  align-self: flex-end;
-`
-
 export const SelectLabel = styled.label`
   font-weight: bold;
   width: 100%;
@@ -141,3 +135,73 @@ export const EmptyText = styled.p`
   color: #999;
   font-size: 15px;
 `;
+
+/* ====== 좋아요 버튼 ====== */
+export const StyledButton = styled.button`
+  width: 110px;
+  height: 50px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+
+  border-radius: 20px;
+  border: ${p => (p.$liked ? "1px solid #eb5252" : "1px solid #86e5ad")};
+  cursor: pointer;
+
+  background: ${p => (p.$liked ? "#ff6b6b" : "#fff")};
+  transition: 0.2s ease;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+
+  img.like-icon {
+    width: 100px;
+    height: auto;
+    opacity: ${p => (p.$liked ? "1" : "0.9")};
+    filter: ${p => (p.$liked ? "invert(1)" : "none")};
+    transition: 0.2s ease;
+  }
+
+  &:hover {
+    background: ${p => (p.$liked ? "#ff8787" : "#eafff1")};
+    border-color: ${p => (p.$liked ? "#ff8787" : "#86e5ad")};
+    transform: translateY(-2px);
+  }
+
+
+  &:active {
+    transform: scale(0.97);
+  }
+`;
+
+const mint = {
+  base: "#81f1b0",      // 기본 민트
+  hover: "#34d399",     // hover 민트
+  text: "#ffffff",      // 텍스트 white
+  shadow: "0 2px 6px rgba(0,0,0,0.12)",
+  shadowHover: "0 4px 10px rgba(0,0,0,0.18)"
+};
+
+// 목록으로, 수정, 삭제
+export const BackButton = styled.button`
+  background: ${mint.base};
+  color: white;
+  padding: 10px 22px;
+  border-radius: 10px;
+  border: none;
+  font-size: 15px;
+  cursor: pointer;
+  box-shadow: ${mint.shadow};
+  transition: 0.2s ease;
+  margin-top: 15px;
+
+  &:hover {
+    background: ${mint.hover};
+    box-shadow: ${mint.shadowHover};
+    transform: translateY(-1px);
+  }
+`;
+
+
+
+

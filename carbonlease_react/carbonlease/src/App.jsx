@@ -17,6 +17,7 @@ import NoticeDetail from './component/Notice/NoticeDetail/NoticeDetail';
 import Notices from './component/Notice/Notices/Notices';
 import { GlobalCommonStyles } from './styles/global.styled';
 import NotFound from './component/Common/NotFound/NotFound';
+import BoardInsertForm from './component/Board/BoardInsert/BoardInsertForm';
 
 // Admin Components
 import { useContext } from 'react';
