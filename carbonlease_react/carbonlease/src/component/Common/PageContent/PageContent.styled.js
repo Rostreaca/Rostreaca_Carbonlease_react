@@ -20,7 +20,7 @@ export const PageContentWrap = styled.section`
         display: flex;
         justify-content : center;
     }
-    .regInvalidMsg {
+    .regInValidMsg {
         font-size: 14px;
         color: red;
     }
