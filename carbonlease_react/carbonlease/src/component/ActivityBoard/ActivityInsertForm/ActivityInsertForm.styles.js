@@ -86,15 +86,15 @@ export const InputButton = styled.button`
   border: none;
   cursor: pointer;
 
-  background: #81f1b0;
+  background: #00A34A;
   color: #fff;
   font-size: 22px;
-  font-weight: 600;
+  font-weight: 500;
   box-shadow: 0 2px 6px rgba(0,0,0,0.12);
   transition: 0.2s ease;
 
   &:hover {
-    background: #34d399;
+    background: #00833bff;
     box-shadow: 0 4px 10px rgba(0,0,0,0.18);
     transform: translateY(-1px);
   }
@@ -130,7 +130,6 @@ export const SearchWrapper = styled.div`
 `;
 
 export const SearchInput = styled.input`
-  
 `;
 
 export const SearchButton = styled.button`
@@ -140,7 +139,7 @@ export const SearchButton = styled.button`
   border-radius: 10px;
   border: none;
 
-  background: #81f1b0;
+  background: #00A34A;
   color: #fff;
   font-size: 20px;
   font-weight: 500;
@@ -150,7 +149,7 @@ export const SearchButton = styled.button`
   transition: 0.2s ease;
 
   &:hover {
-    background: #34d399;
+    background: #00833bff;
     box-shadow: 0 4px 10px rgba(0,0,0,0.18);
     transform: translateY(-1px);
   }

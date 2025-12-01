@@ -2,7 +2,7 @@ import axios from "axios";
 import { xml2json } from "xml-js";
 
 const cache = {};
-const CACHE_DURATION = 1000 * 60 * 5; // 5분 캐시
+const CACHE_DURATION = 1000 * 60 * 30; // 5분 캐시
 
 export const fetchAirAPI = async (region) => {
   // 캐시 체크

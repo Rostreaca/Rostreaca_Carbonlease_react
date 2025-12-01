@@ -125,7 +125,7 @@ export const ProfilCardWrapper = styled.div`
   background: #fff;
   border-radius: 20px;
   
-  border: 1px solid #b2f2bb;
+  border: 1px solid #00A34A;
   box-shadow: 0 4px 14px rgba(0,0,0,0.04);
 
   height: 100px;
@@ -172,7 +172,7 @@ export const ProfilText = styled.div`
   /* 채워지는 바 */
   export const GaugeBar = styled.div`
     height: 100%;
-    background: #86e5ad;
+    background: #00A34A;
     transition: width 0.3s ease;
     border-radius: 18px;
   `;
@@ -188,7 +188,7 @@ export const ProfilText = styled.div`
 export const SeparatorLine = styled.div`
   width: 1px;
   height: 60px;
-  background: #b2f2bb;
+  background: #00A34A;
   margin: 0 18px;
   opacity: 0.8;
 `;
@@ -233,9 +233,9 @@ export const StyledButton = styled.button`
 `;
 
 const mint = {
-  base: "#81f1b0",      // 기본 민트
-  hover: "#34d399",     // hover 민트
-  text: "#ffffff",      // 텍스트 white
+  base: "#00A34A",
+  hover: "#00833bff",
+  text: "#ffffff",
   shadow: "0 2px 6px rgba(0,0,0,0.12)",
   shadowHover: "0 4px 10px rgba(0,0,0,0.18)"
 };
@@ -267,7 +267,7 @@ export const ButtonSection = styled.div`
   }
 
   .delete-btn {
-    background: #ff7675;
+    background: #fd3333ff;
     color: #fff;
     padding: 10px 22px;
     border-radius: 10px;
@@ -279,7 +279,7 @@ export const ButtonSection = styled.div`
   }
 
   .delete-btn:hover {
-    background: #ff6b6b;
+    background: #d63232ff;
     box-shadow: 0 4px 10px rgba(0,0,0,0.18);
     transform: translateY(-1px);
   }
