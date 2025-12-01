@@ -16,7 +16,7 @@ import Login from './component/Member/Login/Login';
 import NoticeDetail from './component/Notice/NoticeDetail/NoticeDetail';
 import Notices from './component/Notice/Notices/Notices';
 import { GlobalCommonStyles } from './styles/global.styled';
-import SamplePage from './component/Sample/SamplePage'
+import NotFound from './component/Common/NotFound/NotFound';
 
 // Admin Components
 import { useContext } from 'react';
@@ -66,8 +66,6 @@ function App() {
 				<Route path="/myPage/updateForm" element={<MemberUpdateForm />} />
 				<Route path="/guide" element={<ComponentGuide />} />
 				
-				{/* Sample Page Route */}
-				{/*<Route path="/sample" element={<SamplePage />} >*/}
 			</Route>
 			
 			{/* <Route path="/admin/*" element={<AdminLogin />} /> */}
@@ -90,6 +88,8 @@ function App() {
 				<Route path="activityBoards" element={<AdminActivityBoards />} />
 				<Route path="activityBoards/update/:id" element={<AdminActivityBoardUpdate />} />
 			</Route>
+			{/* 전역 404 */}
+			<Route path="*" element={<NotFound />} />
 
 				</Routes>
 			</AuthProvider>
