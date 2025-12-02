@@ -4,7 +4,6 @@ import PageContent from '../../Common/PageContent/PageContent';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from "react-router-dom";
-import BoardItems from '../Boards/components/BoardItems';
 import { Form, Modal } from 'react-bootstrap';
 import BoardReply from './BoardReply.jsx';
 import RegionSelect from '../../../component/ActivityBoard/ActivityInsertForm/components/RegionSelect.jsx';
@@ -121,6 +120,7 @@ const BoardDetail = () => {
             })
     }
 
+    // 게시글 삭제
     const handleDelete = async () => {
       console.log("삭제 로그인 체크:", auth);
       if (!auth) {
@@ -131,7 +131,7 @@ const BoardDetail = () => {
        console.log("댓글길이 : {}", reply.length);
 
        if(reply.length > 0) {
-          const isOk = confirm("댓글이 존재합니다. 삭제를 하시겠습니까?");
+          const isOk = confirm("댓글이 존재합니다. 삭제 하시겠습니까?");
           if(isOk){
             // alert("삭제호출");
                   const deleteVo = {
