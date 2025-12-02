@@ -4,7 +4,6 @@ import axios from 'axios';
 import ConfirmDialog from '../../Common/ConfirmDialog/ConfirmDialog';
 import DataTable from '../../Common/DataTable/DataTable';
 import {
-    CategoryBadge,
     CreateButton,
     DeleteButton,
     EditButton,
@@ -80,7 +79,7 @@ const AdminNotices = () => {
         })
         .then((res) => {
             console.log(res);
-            
+
         })
         .catch((err) => {
             console.error(err);
