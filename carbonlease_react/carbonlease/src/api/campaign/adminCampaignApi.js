@@ -84,5 +84,5 @@ export const update = (campaignNo, files, campaign) => {
         if (files[1]) formData.append("detailImage", files[1]);
     }
 
-    return adminCampaignApi.put(`/update/${campaignNo}`, formData);
+    return adminCampaignApi.put(`/${campaignNo}`, formData);
 }
