@@ -99,7 +99,7 @@ const AdminNotices = () => {
     };
 
     const handleRowClick = (row) => {
-        navigate(`/notices/${row.noticeNo}`)
+        navigate(`/admin/notices/${row.noticeNo}`)
     }
 
     // 테이블 컬럼 정의

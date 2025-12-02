@@ -73,6 +73,7 @@ function App() {
 				<Route path="home" element={<AdminHome />} />
 				<Route path="users" element={<AdminUsers />} />
 				<Route path="notices" element={<AdminNotices />} />
+				<Route path="notices/:id" element={<NoticeDetail />} />
 				<Route path="notices/insert" element={<NoticeInsertForm />} />
 				<Route path="notices/update/:id" element={<NoticeUpdateForm />} />
 				<Route path="campaigns" element={<AdminCampaigns />} />

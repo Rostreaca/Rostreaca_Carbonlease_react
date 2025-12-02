@@ -152,7 +152,7 @@ const NoticeUpdateForm = () => {
 
     // 취소버튼 handler
     const handleCancel = () => {
-        navigate('/admin/notices');
+        navi('/admin/notices');
     };
     
     return (
