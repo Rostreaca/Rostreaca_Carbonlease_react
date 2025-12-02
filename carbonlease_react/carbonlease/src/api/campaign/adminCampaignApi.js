@@ -50,7 +50,7 @@ export const save = (campaign, files) => {
         }
     }
 
-    return adminCampaignApi.post('/insert', formData);
+    return adminCampaignApi.post('', formData);
 };
 
 
