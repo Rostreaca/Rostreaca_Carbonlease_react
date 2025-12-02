@@ -19,7 +19,6 @@ import { GlobalCommonStyles } from './styles/global.styled';
 import NotFound from './component/Common/NotFound/NotFound';
 
 // Admin Components
-import { useContext } from 'react';
 import AdminActivityBoards from './component/Admin/ActivityBoard/boards/AdminActivityBoards';
 import AdminActivityBoardUpdate from './component/Admin/ActivityBoard/update/AdminActivityBoardsUpdate';
 import AdminHome from './component/Admin/AdminHome';
@@ -61,17 +60,16 @@ function App() {
 				<Route path="/campaigns" element={<Campaigns />} />
 				<Route path="/campaigns/detail/:id" element={<CampaignDetail />} />
 				<Route path="/login" element={<Login/>} />
-				<Route path="/member/enrollForm" element={<EnrollForm/>} />
+				<Route path="/signUp" element={<EnrollForm/>} />
 				<Route path="/myPage" element = {<MyPage/>} />
-				<Route path="/myPage/updateForm" element={<MemberUpdateForm />} />
+				<Route path="/myPage/update" element={<MemberUpdateForm />} />
 				<Route path="/guide" element={<ComponentGuide />} />
-				
 			</Route>
 			
+			<Route path="/admin/login" element={<AdminLogin />} />
 			
 			{/* Admin Routes - without user Layout */}
 			<Route path="admin/*" element={<AdminLayout />}>
-				<Route path='login' element={<AdminLogin />} />
 				<Route path="home" element={<AdminHome />} />
 				<Route path="users" element={<AdminUsers />} />
 				<Route path="notices" element={<AdminNotices />} />
