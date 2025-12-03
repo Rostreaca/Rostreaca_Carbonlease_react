@@ -1,23 +1,19 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 
-export const useAir = (stationName) => {
+const API_BASE = import.meta.env.VITE_API_BASE_URL;
+
+export const useAir = (station) => {
   const [data, setData] = useState(null);
 
   useEffect(() => {
-    const load = async () => {
-      try {
-        const res = await axios.get(`/api/air/station`, {
-          params: { stationName }
-        });
-        setData(res.data);
-      } catch (e) {
-        console.error("대기질 조회 실패:", e);
-      }
-    };
+    if (!station) return;
 
-    load();
-  }, [stationName]);
+    axios
+      .get(`${API_BASE}/api/air/station`, { params: { name: station } })
+      .then((res) => setData(res.data))
+      .catch(console.error);
+  }, [station]);
 
   return data;
 };

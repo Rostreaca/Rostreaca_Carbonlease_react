@@ -1,43 +1,20 @@
 import { useEffect, useState } from "react";
-import { fetchSidoAverage } from "../../../../api/sidebar/sidoAPI";
+import axios from "axios";
+
+const API_BASE = import.meta.env.VITE_API_BASE_URL;
 
 export const useSidoAverage = (sido) => {
-  const [avg, setAvg] = useState(null);
-  const [error, setError] = useState(null);
+  const [data, setData] = useState(null);
+
 
   useEffect(() => {
-    let cancelled = false;
+    if (!sido) return;
 
-    const load = async () => {
-      try {
-        setError(null);
-        const data = await fetchSidoAverage(sido);
-        if (!cancelled) {
-          if (data.error) {
-            setError(data.error);
-            setAvg(null);
-          } else {
-            setAvg({
-              value: data.value,
-              time: data.time,
-            });
-          }
-        }
-      } catch (e) {
-        console.error("시/도 평균 조회 실패", e);
-        if (!cancelled) {
-          setError("조회 실패");
-          setAvg(null);
-        }
-      }
-    };
-
-    load();
-
-    return () => {
-      cancelled = true;
-    };
+    axios
+      .get(`${API_BASE}/api/air/sido`, { params: { name: sido } })
+      .then((res) => setData(res.data))
+      .catch(console.error);
   }, [sido]);
 
-  return avg;
+  return data;
 };
