@@ -7,9 +7,9 @@ import {
     FormContainer,
     PageHeader,
     SubmitButton
-} from '../../Common/DataTable/DataTable.styled';
-import FormField from '../../Common/Form/FormField';
-import { AuthContext } from '../../Context/AuthContext'
+} from '../../../Common/DataTable/DataTable.styled';
+import FormField from '../../../Common/Form/FormField';
+import { AuthContext } from '../../../Context/AuthContext'
 
 import axios from 'axios';
 import { useContext, useEffect, useState } from 'react';
