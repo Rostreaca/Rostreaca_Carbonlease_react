@@ -22,7 +22,7 @@ const SidoAverage = ({ sido, sidoAvg, onPrev, onNext }) => {
     }, 5000);
 
     return () => clearInterval(timer);
-  }, []);
+  }, [onNext]);
 
   if (!sidoAvg) return <SkeletonBox />;
 
