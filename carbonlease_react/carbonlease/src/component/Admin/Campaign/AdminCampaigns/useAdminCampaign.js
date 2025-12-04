@@ -28,7 +28,6 @@ const useAdminCampaign = (onShowToast) => {
         findAll(page)
             .then((result) => {
                 if (result && result.status === 200) {
-                    
                     // 캠페인 목록 및 페이지 정보 설정
                     const { campaigns, pageInfo } = result.data;
 
@@ -39,12 +38,10 @@ const useAdminCampaign = (onShowToast) => {
                         endPage: pageInfo.endPage,
                         totalPage: pageInfo.maxPage
                     });
-                } else {
-                    onShowToast && onShowToast('캠페인 목록을 불러오지 못했습니다.', 'error');
-                }
+                } 
             })
             .catch((error) => {
-                onShowToast && onShowToast(
+                onShowToast?.(
                     error?.response?.data?.["error-message"] || '캠페인 목록을 불러오지 못했습니다.',
                     'error'
                 );
