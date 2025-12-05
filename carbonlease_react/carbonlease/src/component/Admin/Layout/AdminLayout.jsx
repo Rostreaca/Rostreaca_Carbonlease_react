@@ -19,11 +19,14 @@ const AdminLayout = () => {
 
     const navi = useNavigate();
     const { auth, logout } = useContext(AuthContext);
+    const [currentPage, setCurrentPage] = useState('');
 
     useEffect(() => {
 
+        // console.log(window.location.pathname);
+        
         {
-            auth.role === null ? console.log(auth.role) : auth.role !== '[ROLE_ADMIN]' ? navi('/admin/login') : <></> 
+            auth.role !== '[ROLE_ADMIN]' ? ( setCurrentPage(window.location.pathname) ,navi('/admin/login')) : navi(currentPage);
         }
 
     }, [auth.role])
