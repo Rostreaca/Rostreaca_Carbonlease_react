@@ -13,14 +13,11 @@ const Layout = () => {
 
     useEffect(() => {
 
-      if(auth.role === null) {
-          return;
+      {
+        auth.role === null ? <></> : auth.role !== '[ROLE_USER]' ? navi('/NotFound') : <></> 
       }
-      
-      if(auth.role !== '[ROLE_USER]'){
-        navi('/NotFound');
-      }
-    }, [auth])
+
+    }, [auth.role])
 
     const { pathname } = useLocation();
 

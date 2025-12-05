@@ -43,7 +43,7 @@ const MyPage = () => {
                         }
                     )
                         .then(result => {
-                            console.log(result);
+                            // console.log(result);
                             setBoardData([...result.data]);
                         }).catch(err => {
                             console.error(err.response.data['error-message']);
@@ -119,7 +119,7 @@ const MyPage = () => {
             setTimeout(() => {
                 logout();
                 navi('/');
-            }, 1000);
+            }, 800);
         }).catch(err => {
             showToastMessage(err.response.data["error-message"], 'error');
         })
@@ -128,8 +128,6 @@ const MyPage = () => {
     }
 
     const signOut = () => {
-
-        console.log('aa');
 
         axios.delete("http://localhost/members", {
             headers: {
@@ -144,7 +142,7 @@ const MyPage = () => {
             setTimeout(() => {
                 logout();
                 navi('/');
-            }, 1000);
+            }, 800);
         }).catch(err => {
             showToastMessage(err.response.data["error-message"], 'error');
         })
@@ -225,7 +223,7 @@ const MyPage = () => {
 
                     <FieldGroup className="userFormButtonGroup">
                         <Button className="userFormButton" variant='success' type='button' onClick={() => navi('/myPage/update')}>정보 수정</Button>
-                        <Button className="userFormButton" variant='danger' type='button' onClick={ auth.isSocialLogin === 'Y' ? () => kakaoSignOut() : () => setShowConfirm(true)}>회원 탈퇴</Button>
+                        <Button className="userFormButton" variant='danger' type='button' onClick={() => setShowConfirm(true)}>회원 탈퇴</Button>
                     </FieldGroup>
 
                 </DemoContainer>                
@@ -252,11 +250,11 @@ const MyPage = () => {
                 <ConfirmDialog
                     show={showConfirm}
                     onClose={() => setShowConfirm(false)}
-                    onConfirm={signOut}
+                    onConfirm={auth.isSocialLogin !== 'Y' ? signOut : kakaoSignOut}
                     title='탈퇴 확인'
-                    message='회원을 탈퇴하시려면 비밀번호를 입력해 주십시오'
-                    content={
-                        <input type="password" onChange={(e) => setMemberPwd(e.target.value)}></input>
+                    message={ auth.isSocialLogin !== 'Y' ? '회원을 탈퇴하시려면 비밀번호를 입력해 주십시오' : '회원을 탈퇴하시겠습니까?' }
+                    content={ auth.isSocialLogin !== 'Y' ?
+                        <input type="password" onChange={(e) => setMemberPwd(e.target.value)}></input> : <></>
                     }
                     confirmText='탈퇴'
                     cancelText="취소"
