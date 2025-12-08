@@ -22,8 +22,6 @@ const AdminLayout = () => {
     const [currentPage, setCurrentPage] = useState('');
 
     useEffect(() => {
-
-        // console.log(window.location.pathname);
         
         {
             auth.role !== '[ROLE_ADMIN]' ? ( setCurrentPage(window.location.pathname) ,navi('/admin/login')) : navi(currentPage);
