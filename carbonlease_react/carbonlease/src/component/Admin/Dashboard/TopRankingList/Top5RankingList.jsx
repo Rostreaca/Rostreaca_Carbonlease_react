@@ -41,12 +41,16 @@ const options = {
             beginAtZero: true,
             max: 400,
             ticks: {
-                font: { size: 14 },
+                font: { size: 14, weight: 'bold' },
+                color: '#333',
                 stepSize: 40
             }
         },
         x: {
-            ticks: { font: { size: 14 } }
+            ticks: {
+                font: { size: 14, weight: 'bold' },
+                color: '#000'
+            }
         }
     }
 };
