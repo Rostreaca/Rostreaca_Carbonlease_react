@@ -12,7 +12,8 @@ import CampaignHeader from './components/CampaignHeader';
 import CampaignImage from './components/CampaignImage';
 import CampaignMeta from './components/CampaignMeta';
 import useCampaignDetail from './useCampaignDetail';
-
+import { getReplies, insertReply, deleteReply, updateReply } from '../../../api/campaign/campaignApi';
+import CommentBox from '../../Common/Comments/CommentBox';
 
 const CampaignDetail = () => {
     const navigate = useNavigate();
@@ -61,6 +62,47 @@ const CampaignDetail = () => {
     // 목록으로 돌아가기 (변경된 캠페인 데이터 함께 전달(좋아요 상태 등))
     const handleBack = () => {
         navigate('/campaigns', { state: { updatedCampaign: campaign } });
+    };
+
+    // 댓글 매핑 및 API 래퍼 함수 정의
+    const campaignCommentMap = {
+        id: "replyNo",
+        writer: "writer",
+        content: "replyContent",
+        date: "enrollDate"
+    };
+
+    // 댓글 목록 조회
+    const fetchRepliesAPI = (boardId, pageNo = 1) => {
+        return getReplies(boardId, pageNo);
+    };
+
+    // 댓글 등록
+    const insertReplyAPI = (boardId, replyContent) => {
+        if (!auth || !auth.isAuthenticated) {
+            handleShowToast('로그인이 필요합니다.', 'error');
+            return Promise.reject(new Error('로그인 필요'));
+        }
+        console.log('댓글 등록 요청 boardId:', boardId, 'replyContent:', replyContent);
+        return insertReply(boardId, replyContent)
+            .then((result) => {
+                console.log('댓글 등록 응답:', result);
+                return result;
+            })
+            .catch((error) => {
+                console.error('댓글 등록 실패:', error);
+                throw error;
+            });
+    };
+
+    // 댓글 수정
+    const updateReplyAPI = (replyNo, replyContent) => {
+        return updateReply(replyNo, replyContent);
+    };
+
+    // 댓글 삭제
+    const deleteReplyAPI = (replyNo) => {
+        return deleteReply(replyNo);
     };
 
     // 로딩 상태
@@ -125,6 +167,16 @@ const CampaignDetail = () => {
                             ? <Component key={idx} campaign={campaign} auth={auth} />
                             : <Component key={idx} campaign={campaign} />
                     )}
+
+                    <CommentBox
+                        boardId={id}
+                        auth={auth}
+                        fetchAPI={fetchRepliesAPI}
+                        insertAPI={insertReplyAPI}
+                        updateAPI={updateReplyAPI}
+                        deleteAPI={deleteReplyAPI}
+                        mapping={campaignCommentMap}
+                    />
                     <CampaignActions
                         campaign={campaign}
                         auth={auth}
@@ -132,8 +184,8 @@ const CampaignDetail = () => {
                         handleLikeToggle={handleLikeToggle}
                         onShowToast={handleShowToast}
                 /* ---------------------------------------------
-                |   [D: 20251129]                              |
-                |   좋아요 상태 연동을 위해 추가된 props       |
+                [D: 20251129]                             
+                좋아요 상태 연동을 위해 추가된 props      
                 ---------------------------------------------- */
                         isLiked={campaign.isLiked}
                         likeCount={campaign.likeCount}
