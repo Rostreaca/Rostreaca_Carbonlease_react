@@ -39,13 +39,6 @@ export const AuthProvider = ({ children }) => {
         const role = localStorage.getItem("role");
         const expiredDate = localStorage.getItem("expiredDate");
         const isSocialLogin = localStorage.getItem("isSocialLogin");
-        //console.log(refreshToken);
-
-        // 관리자는 자동로그인 불가
-        if(role === '[ROLE_ADMIN]'){
-            logout();
-            return;
-        }
 
         console.log('토큰 만료 기간 : '+ expiredDate);
 
