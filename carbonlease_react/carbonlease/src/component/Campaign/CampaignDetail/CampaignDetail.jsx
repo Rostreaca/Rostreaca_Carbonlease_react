@@ -1,7 +1,5 @@
 import { useContext, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { deleteReply, getReplies, insertReply, updateReply } from '../../../api/campaign/campaignApi';
-import CommentBox from '../../Common/Comments/CommentBox';
 import PageTitle from '../../Common/Layout/PageTitle/PageTitle';
 import Loading from '../../Common/Loading/Loading';
 import PageContent from '../../Common/PageContent/PageContent';
@@ -14,6 +12,8 @@ import CampaignHeader from './components/CampaignHeader';
 import CampaignImage from './components/CampaignImage';
 import CampaignMeta from './components/CampaignMeta';
 import useCampaignDetail from './useCampaignDetail';
+import CommentBox from '../../Common/Comments/CommentBox';
+import { deleteReply, getReplies, insertReply, updateReply } from '../../../api/campaign/campaignApi';
 
 const CampaignDetail = () => {
     const navigate = useNavigate();
