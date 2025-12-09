@@ -20,8 +20,9 @@ const NoticeCalendar = () => {
   const { auth } = useContext(AuthContext);
 
   useEffect(() => {
+    if (!auth?.accessToken) return;
     fetchEvents();
-  }, []);
+  }, [auth]);
 
   // 일정 전체 조회
   const fetchEvents = async () => {

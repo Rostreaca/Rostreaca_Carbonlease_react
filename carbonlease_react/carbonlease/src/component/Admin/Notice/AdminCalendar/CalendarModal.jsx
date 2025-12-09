@@ -28,12 +28,14 @@ const CalendarModal = ({ isOpen, onClose, onSubmit, onDelete, event, isEdit }) =
   const [categories, setCategories] = useState([]);
 
   useEffect(()=> {
+    if (!auth?.accessToken) return;
+
     axios.get("http://localhost/admin/calendar/category", {
     headers:{ Authorization:`Bearer ${auth.accessToken}` }
   }).then(res => {
     setCategories(res.data?.categories ?? []);
   });
-  }, [])
+  }, [auth])
 
   useEffect(() => {
     if (isEdit && event) {
