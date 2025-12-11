@@ -81,7 +81,7 @@ function App() {
 			<Route path="/admin/login" element={<AdminLogin />} />
 			
 			{/* Admin Routes - without user Layout */}
-			<Route path="admin/*" element={<AdminLayout />}>
+			<Route path="/admin/*" element={<AdminLayout />}>
 				<Route path="home" element={<AdminHome />} />
 				<Route path="users" element={<AdminUsers />} />
 				<Route path="notices" element={<AdminNotices />} />
