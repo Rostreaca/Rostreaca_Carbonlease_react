@@ -14,7 +14,7 @@ import useTop5RankingList from '../TopRankingList/useTop5RankingList';
 import Loading from '../../../Common/Loading/Loading';
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ChartDataLabels);
 
-
+// 긴 텍스트를 지정한 길이로 자르고 '...' 추가
 const truncate = (str, n) => (str && str.length > n ? str.slice(0, n) + '...' : str);
 
 const options = {
@@ -76,12 +76,12 @@ const Top5RankingList = ({ onShowToast }) => {
     const chartData = {
         labels: top5List.map(item => {
             //  원본 전체 텍스트를 그대로 labels에 넣습니다.
-            return `[${item.boardType}] ${item.title}`; 
+            return `[${item.boardType}] ${item.boardTitle}`; 
         }),
         datasets: [
             {
                 label: 'Views',
-                data: top5List.map(item => item.views),
+                data: top5List.map(item => item.viewCount),
                 backgroundColor: '#00a34a',
                 barPercentage: 0.6,
                 categoryPercentage: 0.7
