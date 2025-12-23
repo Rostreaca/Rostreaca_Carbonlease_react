@@ -46,7 +46,7 @@ const AdminCampaigns = () => {
         setCurrentPage,
         status,
         setStatus,
-        keyword,
+        // keyword,
         setKeyword,
         loading,
         pageInfo,
