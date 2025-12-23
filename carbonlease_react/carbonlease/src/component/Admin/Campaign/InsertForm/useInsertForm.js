@@ -33,7 +33,7 @@ const useInsertForm = (onShowToast) => {
 		getCategories()
 			.then((result) => {
 				//console.log('카테고리 API 응답:', result.data);
-				const options = result.data.map(c => ({ value: c.categoryNo, label: c.categoryName }));
+				const options = (result.data.data || []).map(c => ({ value: c.categoryNo, label: c.categoryName }));
 				setCategoryOptions(options);
 			})
 			.catch(() => {

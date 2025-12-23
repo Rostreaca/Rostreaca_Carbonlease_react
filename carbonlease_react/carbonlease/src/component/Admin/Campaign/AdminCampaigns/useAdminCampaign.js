@@ -26,7 +26,7 @@ const useAdminCampaign = (onShowToast) => {
         findAll(page, statusParam, keywordParam)
             .then((result) => {
                 if (result && result.status === 200) {
-                    const { campaigns, pageInfo } = result.data;
+                    const { campaigns, pageInfo } = result.data.data;
                     setCampaigns([...campaigns]);
                     setPageInfo({
                         startPage: pageInfo.startPage,

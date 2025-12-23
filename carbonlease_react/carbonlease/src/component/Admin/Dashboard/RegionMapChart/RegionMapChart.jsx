@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import { getUsersRegionActivityStats } from '../../../../api/dashboard/adminDashBoard';
-import { MapContainer, TileLayer, Popup, CircleMarker } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
+import { useEffect, useState } from 'react';
+import { CircleMarker, MapContainer, Popup, TileLayer } from 'react-leaflet';
+import { getUsersRegionActivityStats } from '../../../../api/dashboard/adminDashBoard';
 import { MapChartContainer } from './RegionMapChart.styled';
 
 // 지도 위에 지역별 totalCount를 표시하는 차트/마커 컴포넌트 (Leaflet 버전)
@@ -12,7 +12,7 @@ const RegionMapChart = ({ onShowToast }) => {
     useEffect(() => {
         getUsersRegionActivityStats()
             .then((result) => {
-                setRegionStats(result.data);
+                setRegionStats(result.data.data);
             })
             .catch((error) => {
                 onShowToast(
