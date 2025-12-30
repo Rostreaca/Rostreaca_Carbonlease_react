@@ -76,8 +76,8 @@ const NoticeUpdateForm = () => {
                         },
                     })
                     .then((result) => {
-                        const responseNotice = result.data.notice;
-                        const responseAtt = result.data.attachment;
+                        const responseNotice = result.data.data.notice;
+                        const responseAtt = result.data.data.attachment;
                         console.log(result);
                         setFileNames(responseAtt.map(att => att.originName));
                         setFormData({

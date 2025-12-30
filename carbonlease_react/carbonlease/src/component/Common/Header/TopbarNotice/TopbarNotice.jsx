@@ -33,7 +33,7 @@ const TopbarNotice = () => {
         
         const { data } = await axios.get(`${API_BASE_URL}/notices/fix`);
 
-        const converted = data.notices.map(e => ({
+        const converted = data.data.notices.map(e => ({
             id: e.noticeNo,
             text: e.noticeTitle,
         }))

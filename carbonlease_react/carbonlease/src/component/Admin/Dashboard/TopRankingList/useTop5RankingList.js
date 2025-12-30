@@ -18,7 +18,7 @@ const useTop5RankingList = (onShowToast) => {
         setLoading(true);
         getAllCountTop5()
             .then((result) => {
-                setTop5List(convertTop5StatsToList(result.data));
+                setTop5List(convertTop5StatsToList(result.data.data));
             })
             .catch((error) => {
                 // onShowToast(

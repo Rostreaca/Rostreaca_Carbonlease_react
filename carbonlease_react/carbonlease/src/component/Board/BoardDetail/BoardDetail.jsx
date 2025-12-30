@@ -84,7 +84,7 @@ const BoardDetail = () => {
     axios
             .get(`${API_BASE_URL}/boards/detail/${id}`)
             .then((result) => {
-                const response = result.data;
+                const response = result.data.data;
                 console.log("상세보기 데이터:", response);
                 setBoard({
                     title: response.boardDetail.boardTitle,
@@ -144,7 +144,7 @@ const BoardDetail = () => {
               }
             })
             .then((result) => {
-                const response = result.data;
+                const response = result.data.data;
                 console.log("상세보기 데이터:", response);
                 alert("등록되었습니다.");
                 console.log("게시글 번호 :", {id});
@@ -179,7 +179,7 @@ const BoardDetail = () => {
                     }
                   })
                   .then((result) => {
-                      const response = result.data;
+                      const response = result.data.data;
                       console.log("상세보기 데이터:", response.deleteOK);
                       if(response.deleteOK > 0) {
                         alert("삭제되었습니다.");
@@ -206,7 +206,7 @@ const BoardDetail = () => {
                     }
                   })
                   .then((result) => {
-                      const response = result.data;
+                      const response = result.data.data;
                       console.log("상세보기 데이터:", response.deleteOK);
                       if(response.deleteOK > 0) {
                         alert("삭제되었습니다.");

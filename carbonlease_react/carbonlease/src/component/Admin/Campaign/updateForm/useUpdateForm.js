@@ -37,7 +37,7 @@ const UpdateForm = (onShowToast, auth) => {
     useEffect(() => {
         getCategories()
             .then((result) => {
-                const options = result.data.map(c => ({ value: c.categoryNo, label: c.categoryName }));
+                const options = result.data.data.map(c => ({ value: c.categoryNo, label: c.categoryName }));
                 setCategoryOptions(options);
             })
             .catch(() => {

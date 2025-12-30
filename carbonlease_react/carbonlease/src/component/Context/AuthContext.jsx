@@ -53,7 +53,7 @@ export const AuthProvider = ({ children }) => {
         axios.post(`${API_BASE_URL}/auth/refresh`, {
             refreshToken : refreshToken,
         }).then(result => {
-            //console.log(result.data);
+            //console.log(result.data.data);
             const newAcessToken = result.data.data["accessToken"];
             const newRefreshToken = result.data.data["refreshToken"];
             const newExpiredDate = result.data.data["expiredDate"];

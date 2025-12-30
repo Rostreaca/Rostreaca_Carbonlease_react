@@ -64,7 +64,7 @@ const NoticeCalendar = () => {
     }).then((res) => {
 
       const createdEvent = {
-        id: res.data.calendarNo,
+        id: res.data.data.calendarNo,
         ...newEvent
       };
 

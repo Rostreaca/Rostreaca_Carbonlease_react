@@ -59,8 +59,8 @@ const NoticeDetail = () => {
                     },
                 })
                 .then((result) => {
-                    const responseNotice = result.data.notice;
-                    const responseAttachment = result.data.attachment;
+                    const responseNotice = result.data.data.notice;
+                    const responseAttachment = result.data.data.attachment;
                     console.log(responseAttachment);
                     setNotice({
                         title: responseNotice.noticeTitle,
@@ -74,8 +74,8 @@ const NoticeDetail = () => {
             axios
                 .get(`${API_BASE_URL}/notices/detail/${id}`)
                 .then((result) => {
-                    const responseNotice = result.data.notice;
-                    const responseAttachment = result.data.attachment;
+                    const responseNotice = result.data.data.notice;
+                    const responseAttachment = result.data.data.attachment;
                     console.log(responseAttachment);
                     setNotice({
                         title: responseNotice.noticeTitle,

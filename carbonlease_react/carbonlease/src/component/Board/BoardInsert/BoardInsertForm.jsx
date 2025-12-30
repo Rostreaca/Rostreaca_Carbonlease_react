@@ -68,7 +68,7 @@ const BoardInsertForm = () => {
               }
             })
             .then((result) => {
-                const response = result.data;
+                const response = result.data.data;
                 console.log("새글 데이터:", response);
                 if (response.boardInsert == 1) {
                   alert("등록되었습니다.");

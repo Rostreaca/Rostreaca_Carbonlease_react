@@ -12,7 +12,7 @@ export const useComment = (fetchAPI, boardId, mapping) => {
   const loadPage = async (page) => {
     const res = await fetchAPI(boardId, page);
 
-    const list = res.data.replies || [];
+    const list = res.data.data.replies || [];
 
     const normalized = list.map(r => ({
       id: r[mapping.id],
@@ -24,9 +24,9 @@ export const useComment = (fetchAPI, boardId, mapping) => {
     setComments(normalized);
 
     setPageInfo({
-      startPage: res.data.pageInfo.startPage,
-      endPage: res.data.pageInfo.endPage,
-      totalPage: res.data.pageInfo.maxPage
+      startPage: res.data.data.pageInfo.startPage,
+      endPage: res.data.data.pageInfo.endPage,
+      totalPage: res.data.data.pageInfo.maxPage
     });
 
     setCurrentPage(page);

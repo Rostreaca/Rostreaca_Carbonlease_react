@@ -23,12 +23,12 @@ export default function useAdminBoards() {
   try {
     const res = await fetchAdminBoards(page, status, keyword);
 
-    setBoards(res.data.list);
+    setBoards(res.data.data.list);
     setPageInfo({
       currentPage: page,
-      totalPage: res.data.pageInfo.maxPage,
-      startPage: res.data.pageInfo.startPage,
-      endPage: res.data.pageInfo.endPage,
+      totalPage: res.data.data.pageInfo.maxPage,
+      startPage: res.data.data.pageInfo.startPage,
+      endPage: res.data.data.pageInfo.endPage,
     });
   } catch (err) {
     console.error("목록 조회 실패", err);

@@ -12,7 +12,7 @@ const RegionMapChart = ({ onShowToast }) => {
     useEffect(() => {
         getUsersRegionActivityStats()
             .then((result) => {
-                setRegionStats(result.data);
+                setRegionStats(result.data.data);
             })
             .catch((error) => {
                 onShowToast(

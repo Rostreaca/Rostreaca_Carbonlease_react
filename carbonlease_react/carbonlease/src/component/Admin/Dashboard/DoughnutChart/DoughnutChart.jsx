@@ -59,7 +59,7 @@ const DoughnutChart = ({ onShowToast }) => {
                         <LegendRow>
                             {cfg.data.labels.map((label, j) => (
                                 <LegendItem key={cfg.title + '-' + label + '-' + j}>
-                                    <LegendColor style={{ background: cfg.data.datasets[0].backgroundColor[j] }} />
+                                    <LegendColor style={{ background: cfg.datasets[0].backgroundColor[j] }} />
                                     <LegendLabel>{label}</LegendLabel>
                                 </LegendItem>
                             ))}

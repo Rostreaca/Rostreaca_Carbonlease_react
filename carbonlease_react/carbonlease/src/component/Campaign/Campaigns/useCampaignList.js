@@ -53,7 +53,7 @@ const useCampaignList = (onShowToast, auth) => {
             })
             .catch((error) => {
                 onShowToast(
-                    error?.response?.data?.["error-message"] || '캠페인 목록을 불러오지 못했습니다.',
+                    error?.response?.data?.data?.["error-message"] || '캠페인 목록을 불러오지 못했습니다.',
                     'error'
                 );
             })
@@ -102,7 +102,7 @@ const useCampaignList = (onShowToast, auth) => {
             })
             .catch((error) => {
                 onShowToast(
-                    error?.response?.data?.["error-message"] || '좋아요 처리에 실패했습니다.',
+                    error?.response?.data?.data?.["error-message"] || '좋아요 처리에 실패했습니다.',
                     'error'
                 );
             });

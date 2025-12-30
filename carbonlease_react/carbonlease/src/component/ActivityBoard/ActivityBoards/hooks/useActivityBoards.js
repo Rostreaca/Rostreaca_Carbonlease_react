@@ -19,13 +19,13 @@ export const useActivityBoards = () => {
     setLoading(true);
     fetchActivityBoards(page, f, k)
       .then((res) => {
-        const list = res.data.activityListDTO || [];
+        const list = res.data.data.activityListDTO || [];
 
         setActivityBoards(list);
         setPageInfo({
-          startPage: res.data.pageInfo.startPage,
-          endPage: res.data.pageInfo.endPage,
-          totalPage: res.data.pageInfo.maxPage
+          startPage: res.data.data.pageInfo.startPage,
+          endPage: res.data.data.pageInfo.endPage,
+          totalPage: res.data.data.pageInfo.maxPage
         });
       })
       .catch((err) => console.error(err))

@@ -32,8 +32,8 @@ const useInsertForm = (onShowToast) => {
 		// 카테고리 옵션 불러오기
 		getCategories()
 			.then((result) => {
-				//console.log('카테고리 API 응답:', result.data);
-				const options = result.data.map(c => ({ value: c.categoryNo, label: c.categoryName }));
+				//console.log('카테고리 API 응답:', result.data.data);
+				const options = result.data.data.map(c => ({ value: c.categoryNo, label: c.categoryName }));
 				setCategoryOptions(options);
 			})
 			.catch(() => {

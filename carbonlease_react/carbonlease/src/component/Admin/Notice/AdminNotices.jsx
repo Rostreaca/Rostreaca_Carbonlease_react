@@ -51,8 +51,8 @@ const AdminNotices = () => {
                 })
                 .then((result) => {
                     console.log(result); // OK
-                    const responseNotice = result.data.notices;
-                    const responsePageInfo = result.data.pageInfo;
+                    const responseNotice = result.data.data.notices;
+                    const responsePageInfo = result.data.data.pageInfo;
                     setNotice([...responseNotice]);
                     setPageInfo({
                         startPage: responsePageInfo.startPage,

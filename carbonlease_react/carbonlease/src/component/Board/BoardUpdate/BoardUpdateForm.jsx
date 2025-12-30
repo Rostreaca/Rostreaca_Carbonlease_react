@@ -37,7 +37,7 @@ const BoardInsertForm = () => {
     axios
             .get(`${API_BASE_URL}/boards/detail/${id}`)
             .then((result) => {
-                const response = result.data;
+                const response = result.data.data;
                 console.log("상세보기 데이터:", response);
                 setBoard({
                     title: response.boardDetail.boardTitle,
@@ -94,7 +94,7 @@ const BoardInsertForm = () => {
               }
             })
             .then((result) => {
-                const response = result.data;
+                const response = result.data.data;
                 console.log("새글 데이터:", response);
                 if (response.updateOK == 1) {
                   alert("수정 되었습니다.");

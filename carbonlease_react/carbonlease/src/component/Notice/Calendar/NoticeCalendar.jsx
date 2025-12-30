@@ -37,7 +37,8 @@ const NoticeCalendar = () => {
       const { data } 
       = await axios
       .get(`${API_BASE_URL}/notices/calendar/categories`);
-      setCategories(data.categories);
+      setCategories(data.data.categories);
+
     };
 
     // 일정 가져오기
@@ -46,7 +47,7 @@ const NoticeCalendar = () => {
         = await axios
         .get(`${API_BASE_URL}/notices/calendar`)
 
-        const converted = data.events.map(e => ({
+        const converted = data.data.events.map(e => ({
           id: e.calendarNo,
           title: e.title,
           start: e.startDate,

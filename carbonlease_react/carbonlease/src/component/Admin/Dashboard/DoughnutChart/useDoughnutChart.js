@@ -58,8 +58,8 @@ const useDoughnutChart = (onShowToast) => {
         setLoading(true);
         getUsersAllBoardsCount()
             .then((result) => {
-                //alert(JSON.stringify(result.data, null, 2)); // 응답 구조 확인
-                const stats = result.data;
+                //alert(JSON.stringify(result.data.data, null, 2)); // 응답 구조 확인
+                const stats = result.data.data;
                 setChartData(convertStatsToChartData(stats));
             })
             .catch((error) => {

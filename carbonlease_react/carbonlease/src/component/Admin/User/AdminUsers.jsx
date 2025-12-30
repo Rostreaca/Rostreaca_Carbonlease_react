@@ -46,7 +46,7 @@ const AdminUsers = () => {
             }
         }).then(result => {
             //console.log(result);
-            setData([...result.data])
+            setData([...result.data.data])
         }).catch(err => {
             console.error(err);
         })
