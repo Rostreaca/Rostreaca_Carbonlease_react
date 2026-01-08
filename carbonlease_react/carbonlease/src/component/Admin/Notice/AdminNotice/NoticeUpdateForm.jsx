@@ -15,6 +15,8 @@ import axios from 'axios';
 import { useContext, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
+const API_BASE_URL = window.ENV?.API_URL || 'http://localhost:80';
+
 const NoticeUpdateForm = () => {
 
     const [errors, setErrors] = useState({});
@@ -68,14 +70,14 @@ const NoticeUpdateForm = () => {
                 // console.log('너안감?');
                 // console.log(auth.accessToken); 이제 감
                 axios
-                    .get(`http://www.localhost/admin/notices/detail/${id}`, {
+                    .get(`${API_BASE_URL}/admin/notices/detail/${id}`, {
                         headers: {
                             Authorization: `Bearer ${auth.accessToken}`
                         },
                     })
                     .then((result) => {
-                        const responseNotice = result.data.notice;
-                        const responseAtt = result.data.attachment;
+                        const responseNotice = result.data.data.notice;
+                        const responseAtt = result.data.data.attachment;
                         console.log(result);
                         setFileNames(responseAtt.map(att => att.originName));
                         setFormData({
@@ -133,7 +135,7 @@ const NoticeUpdateForm = () => {
 
 
 
-        axios.put(`http://localhost/admin/notices/update/${id}`, notice, {
+        axios.put(`${API_BASE_URL}/admin/notices/update/${id}`, notice, {
             headers: {
                 Authorization: `Bearer ${auth.accessToken}`,
                 "Content-Type": "multipart/form-data",

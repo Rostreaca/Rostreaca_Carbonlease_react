@@ -13,6 +13,8 @@ import NoticeActions from './components/NoticeActions';
 import NoticeFiles from './components/NoticeFiles';
 import { AuthContext } from '../../Context/AuthContext';
 
+const API_BASE_URL = window.ENV?.API_URL || 'http://localhost:80';
+
 const NoticeDetail = () => {
     const navigate = useNavigate();
     const location = useLocation();
@@ -51,14 +53,14 @@ const NoticeDetail = () => {
     useEffect(()=>{
         if (location.pathname.startsWith('/admin')) {
             axios
-                .get(`http://www.localhost/admin/notices/detail/${id}`,{
+                .get(`${API_BASE_URL}/admin/notices/detail/${id}`,{
                     headers: {
                         Authorization: `Bearer ${auth.accessToken}`
                     },
                 })
                 .then((result) => {
-                    const responseNotice = result.data.notice;
-                    const responseAttachment = result.data.attachment;
+                    const responseNotice = result.data.data.notice;
+                    const responseAttachment = result.data.data.attachment;
                     console.log(responseAttachment);
                     setNotice({
                         title: responseNotice.noticeTitle,
@@ -70,10 +72,10 @@ const NoticeDetail = () => {
                 })
         } else {
             axios
-                .get(`http://www.localhost/notices/detail/${id}`)
+                .get(`${API_BASE_URL}/notices/detail/${id}`)
                 .then((result) => {
-                    const responseNotice = result.data.notice;
-                    const responseAttachment = result.data.attachment;
+                    const responseNotice = result.data.data.notice;
+                    const responseAttachment = result.data.data.attachment;
                     console.log(responseAttachment);
                     setNotice({
                         title: responseNotice.noticeTitle,

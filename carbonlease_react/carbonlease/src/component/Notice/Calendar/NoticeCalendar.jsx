@@ -6,6 +6,8 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from "@fullcalendar/interaction";
 import { Button } from 'react-bootstrap';
 
+const API_BASE_URL = window.ENV?.API_URL || 'http://localhost:80';
+
 const NoticeCalendar = () => {
     const [events, setEvents] = useState([]);
     const [categories, setCategories] = useState([]);
@@ -34,17 +36,18 @@ const NoticeCalendar = () => {
     const fetchCategories = async () => {
       const { data } 
       = await axios
-      .get("http://localhost/notices/calendar/categories");
-      setCategories(data.categories);
+      .get(`${API_BASE_URL}/notices/calendar/categories`);
+      setCategories(data.data.categories);
+
     };
 
     // 일정 가져오기
     const fetchEvents = async () => {
         const { data } 
         = await axios
-        .get('http://localhost/notices/calendar')
+        .get(`${API_BASE_URL}/notices/calendar`)
 
-        const converted = data.events.map(e => ({
+        const converted = data.data.events.map(e => ({
           id: e.calendarNo,
           title: e.title,
           start: e.startDate,

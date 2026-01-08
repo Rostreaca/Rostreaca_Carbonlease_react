@@ -28,7 +28,7 @@ const useAdminCampaign = (onShowToast) => {
             .then((result) => {
                 if (result && result.status === 200) {
                     // 캠페인 목록 및 페이지 정보 설정
-                    const { campaigns, pageInfo } = result.data;
+                    const { campaigns, pageInfo } = result.data.data;
 
                     setCampaigns([...campaigns]);
 

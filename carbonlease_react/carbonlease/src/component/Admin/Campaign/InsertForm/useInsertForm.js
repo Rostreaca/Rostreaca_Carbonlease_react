@@ -22,7 +22,7 @@ const useInsertForm = (onShowToast) => {
 		endDate: ''
 	});
 
-    // 파일 이름 상태 관리
+	// 파일 이름 상태 관리
 	const [fileNames, setFileNames] = useState({
 		thumbnail: '',
 		detailImage: ''
@@ -32,8 +32,8 @@ const useInsertForm = (onShowToast) => {
 		// 카테고리 옵션 불러오기
 		getCategories()
 			.then((result) => {
-				//console.log('카테고리 API 응답:', result.data);
-				const options = result.data.map(c => ({ value: c.categoryNo, label: c.categoryName }));
+				//console.log('카테고리 API 응답:', result.data.data);
+				const options = result.data.data.map(c => ({ value: c.categoryNo, label: c.categoryName }));
 				setCategoryOptions(options);
 			})
 			.catch(() => {

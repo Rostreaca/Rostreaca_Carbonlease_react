@@ -16,7 +16,7 @@ export default function useLike(initialIsLiked, initialLikeCount, activityNo, to
     try {
       const res = await toggleLike(activityNo);
 
-      const liked = res.data.liked;
+      const liked = res.data.data.liked;
 
       setIsLiked(liked);
       setLikeCount(prev => liked ? prev + 1 : prev - 1);

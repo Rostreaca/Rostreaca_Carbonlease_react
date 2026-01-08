@@ -18,7 +18,7 @@ import NoticeCalendar from './AdminCalendar/NoticeCalendar';
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 
-
+const API_BASE_URL = window.ENV?.API_URL || 'http://localhost:80';
 
 const AdminNotices = () => {
     const navigate = useNavigate();
@@ -44,15 +44,15 @@ const AdminNotices = () => {
     const getNotices = (page) => {
         if(auth.accessToken){
             axios
-                .get(`http://localhost/admin/notices?pageNo=${page}`, {
+                .get(`${API_BASE_URL}/admin/notices?pageNo=${page}`, {
                     headers: {
                         Authorization: `Bearer ${auth.accessToken}`
                     },
                 })
                 .then((result) => {
                     console.log(result); // OK
-                    const responseNotice = result.data.notices;
-                    const responsePageInfo = result.data.pageInfo;
+                    const responseNotice = result.data.data.notices;
+                    const responsePageInfo = result.data.data.pageInfo;
                     setNotice([...responseNotice]);
                     setPageInfo({
                         startPage: responsePageInfo.startPage,
@@ -75,7 +75,7 @@ const AdminNotices = () => {
     const confirmDelete = () => {
         console.log('삭제 확정:', selectedId);
 
-        axios.put(`http://localhost/admin/notices/delete/${selectedId}`,{}, {
+        axios.put(`${API_BASE_URL}/admin/notices/delete/${selectedId}`,{}, {
             headers: {
                 Authorization: `Bearer ${auth.accessToken}`,
             },

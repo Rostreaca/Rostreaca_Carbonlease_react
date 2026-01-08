@@ -39,7 +39,7 @@ export default function useInsertSubmit({
 
         try {
             const res = await activityInsertForm(activity, file, accessToken);
-            const activityNo = res.data.activityNo;
+            const activityNo = res.data.data.activityNo;
 
             showToastMessage("등록 성공!", "success");
             navigate(`/activityBoards/${activityNo}`);

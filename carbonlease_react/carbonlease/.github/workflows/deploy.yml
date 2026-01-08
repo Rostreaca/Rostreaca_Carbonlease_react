@@ -1,0 +1,70 @@
+name: Deploy React App
+
+# 워크플로우가 실행되는 조건
+on:
+  push:
+    branches: [main] # main브랜치에 push가 될 경우 실행
+  pull_request:
+    branches: [main] # main브랜치에 pull_request가 되었을 경우 실행
+
+# 내가 실행할 작업 정의
+jobs:
+  build-and-deploy: #작업명
+    runs-on: ubuntu-latest #작업을 실행할 가상 환경 지정
+
+    steps: # 우분투에서 무슨 작업을 할 지
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "npm"
+        
+      - name: Install Dependencies
+        run: | # run - 직접 명령어 작성
+          npm ci --legacy-peer-deps
+
+
+      - name: React Project Build
+        run: npm run build
+
+      - name: Prepare Target Directory # 기존 파일과의 충돌을 방지하기 위해 기존 폴더를 삭제하고 새 폴더를 생성함
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{secrets.HOST}}
+          username: ${{secrets.USERNAME}}
+          key: ${{secrets.SSH_KEY}}
+          script: | # 여러줄을 적을 때는 파이프라인을 적고 시작함
+            sudo rm -rf /home/ubuntu/front/dist
+            mkdir -p /home/ubuntu/front/dist
+      
+      - name: Deploy React Project To EC2
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{secrets.HOST}}
+          username: ${{secrets.USERNAME}}
+          key: ${{secrets.SSH_KEY}}
+          source: "dist/"
+          target: "/home/ubuntu/front"
+          overwrite: true
+
+      - name: Fix permissions
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.SSH_KEY }}
+          script: |
+            sudo chown -R ubuntu:ubuntu /home/ubuntu/front
+            sudo chmod -R 755 /home/ubuntu/front
+
+      - name: Restart Container
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.SSH_KEY }}
+          script: |
+            cd /home/ubuntu/
+            ansible-playbook -i inventory.ini react-project-play.yml

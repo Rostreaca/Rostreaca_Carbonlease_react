@@ -9,6 +9,8 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useParams } from 'react-router-dom';
 
+const API_BASE_URL = window.ENV?.API_URL || 'http://localhost:80';
+
 const BoardInsertForm = () => {
   console.log( " 수정페이지  ");
   const token = localStorage.getItem("accessToken");
@@ -33,9 +35,9 @@ const BoardInsertForm = () => {
 
     const fetchReplies = async () => {
     axios
-            .get(`http://localhost/boards/detail/${id}`)
+            .get(`${API_BASE_URL}/boards/detail/${id}`)
             .then((result) => {
-                const response = result.data;
+                const response = result.data.data;
                 console.log("상세보기 데이터:", response);
                 setBoard({
                     title: response.boardDetail.boardTitle,
@@ -85,14 +87,14 @@ const BoardInsertForm = () => {
   const regBoardcall = async (boardVO) => {
     const accessToken = localStorage.getItem("accessToken");
     await axios
-            .post(`http://localhost/boards/boardUpdate`, boardVO, {
+            .post(`${API_BASE_URL}/boards/boardUpdate`, boardVO, {
               headers: {
                 Authorization : `Bearer ${accessToken}`,
                 "Content-Type": "application/json",
               }
             })
             .then((result) => {
-                const response = result.data;
+                const response = result.data.data;
                 console.log("새글 데이터:", response);
                 if (response.updateOK == 1) {
                   alert("수정 되었습니다.");

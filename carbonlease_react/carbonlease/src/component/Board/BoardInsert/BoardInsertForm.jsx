@@ -8,6 +8,8 @@ import TextInputSection from "../../../component/ActivityBoard/ActivityInsertFor
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
+const API_BASE_URL = window.ENV?.API_URL || 'http://localhost:80';
+
 const BoardInsertForm = () => {
   console.log( " 새글 등록  ");
   const navigate = useNavigate();
@@ -59,14 +61,14 @@ const BoardInsertForm = () => {
   const regBoardcall = async (board) => {
     const accessToken = localStorage.getItem("accessToken");
     await axios
-            .post(`http://localhost/boards/boardInsert`, board, {
+            .post(`${API_BASE_URL}/boards/boardInsert`, board, {
               headers: {
                 Authorization : `Bearer ${accessToken}`,
                 "Content-Type": "application/json",
               }
             })
             .then((result) => {
-                const response = result.data;
+                const response = result.data.data;
                 console.log("새글 데이터:", response);
                 if (response.boardInsert == 1) {
                   alert("등록되었습니다.");

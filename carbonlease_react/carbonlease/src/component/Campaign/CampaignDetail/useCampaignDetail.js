@@ -26,7 +26,7 @@ const useCampaignDetail = (id, onShowToast, auth) => {
         findDetailByNo(campaignNo)
             .then((result) => {
                 if (result.status === 200) {
-                    const campaignData = result.data;
+                    const campaignData = result.data.data;
                     const storedLike = campaignStore.getLike(campaignNo);
                     setCampaign({
                         ...campaignData,
@@ -39,7 +39,7 @@ const useCampaignDetail = (id, onShowToast, auth) => {
                 setError(true);
                 setLoading(false);
                 onShowToast(
-                    error?.response?.data?.["error-message"] || "캠페인 정보를 불러오지 못했습니다.",
+                    error?.response?.data?.data?.["error-message"] || "캠페인 정보를 불러오지 못했습니다.",
                     "error"
                 );
             });
@@ -72,7 +72,7 @@ const useCampaignDetail = (id, onShowToast, auth) => {
             })
             .catch((error) => {
                 onShowToast(
-                    error?.response?.data?.["error-message"] || '좋아요 처리에 실패했습니다.',
+                    error?.response?.data?.data?.["error-message"] || '좋아요 처리에 실패했습니다.',
                     'error'
                 );
             });

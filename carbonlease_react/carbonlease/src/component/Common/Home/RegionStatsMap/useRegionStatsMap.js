@@ -27,7 +27,7 @@ const useRegionStatsMap = (onShowToast) => {
         console.log('API 호출!');
         getRegionStats()
             .then((result) => {
-                const raw = result.data ?? result;
+                const raw = result.data.data ?? result;
                 const formatted = formatRegionStatsForMap(raw);
                 setRegionData(formatted);
             })

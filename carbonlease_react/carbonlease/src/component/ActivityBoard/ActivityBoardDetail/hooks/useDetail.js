@@ -9,7 +9,7 @@ export default function useDetail(activityNo, memberId) {
   const loadDetail = async () => {
     try {
       const result = await fetchActivityDetail(activityNo, memberId);
-      const data = result.data;
+      const data = result.data.data;
 
       const storedLike = activityStore.getLike(activityNo);
         if (storedLike !== undefined) {

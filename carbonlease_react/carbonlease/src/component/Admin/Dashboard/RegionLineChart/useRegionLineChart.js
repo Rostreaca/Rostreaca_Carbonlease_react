@@ -60,7 +60,7 @@ const useRegionLineChart = (onShowToast) => {
         setLoading(true);
         getUsersRegionActivityStats()
             .then((result) => {
-                setChartData(convertRegionStatsToChartData(result.data));
+                setChartData(convertRegionStatsToChartData(result.data.data));
             })
             .catch((error) => {
                 onShowToast(
